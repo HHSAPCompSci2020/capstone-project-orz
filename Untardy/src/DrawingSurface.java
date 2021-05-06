@@ -12,9 +12,8 @@ public class DrawingSurface extends PApplet {
 	public void draw() {
 		background(255);
 		fill(0);
-		if(grid != null) {
-			grid.draw(this, 0, 0, height, height);
-		}
+		
+		text("testing, alpha build", 50, 50);
 	}
 
 }

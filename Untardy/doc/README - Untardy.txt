@@ -26,13 +26,11 @@ Revision: 5/5/2021
 
 
 Introduction: 
-
-
-The first day of freshman year is always stressful. Students are constantly referring to the back of their school-issued planner while scrambling from building to building struggling to get to class on time. We faced this very issue back in freshman year and plans to alleviate the stress of finding the pathway to get to class by producing an interactive game where the player tries to draw the shortest path from a starting location to a designated building. Our game will consist of a 2d grid of cells. Each cell may represent a pathway, obstacle, or building. The user will be able to click and drag on the grid in order to produce a possible pathway from the start to the designated location. A timer countdown will be added in order to emulate the passing period time constraint. After the user has completed drawing a pathway, the program will run an internal shortest path algorithm and compare that against the user drawn path. The program will give a score based on how short the user path is from the optimal path.
+The first day of freshman year is always stressful. Students are constantly referring to the back of their school-issued planner while scrambling from building to building struggling to get to class on time. We faced this very issue back in freshman year and plans to alleviate the stress of finding the pathway to get to class by producing an interactive game where the player tries to draw the shortest path from a starting location to a designated building. Our game will consist of a 2d grid of cells. Each cell may represent a pathway, obstacle, or building. The user will be able to click and drag on the grid in order to produce a possible pathway from their starting location to the designated location. A timer countdown will be added in order to emulate the passing period time constraint. After the user has completed drawing a pathway, the program will run an internal shortest path algorithm and compare that against the user drawn path. The program will then score the player based on the deviation of the user’s path from the optimal path, as well as how long the user took to form the path.
 
 
 Instructions:
-At the start of the program, the user can use their mouse to navigate a menu to start the game, read the instructions, or quit the program. During the game, the user can use the arrow keys on their keyboard to move the player model around in the four basic directions (up, down, left, right) and interact with the game.
+At the start of the program, the user can use their mouse to navigate a menu to start the game, read the instructions, or quit the program. During the game, the user can use their mouse click and drag on the grid to draw a path from their current location to their next classroom.
 
 
 Features List (THE ONLY SECTION THAT CANNOT CHANGE LATER):
@@ -42,7 +40,7 @@ Must-have Features:
 * Input function for the user to input their class schedule- classes, periods
 * Functional player interaction with the grid- movement and interaction, and a way to store the player’s data- scores, lives, etc
 * Algorithm that finds the shortest path for the given level
-* Algorithm that scores the player depending on how accurate they were to the shortest path and how long they took
+* Method that scores the player depending on how accurate they were to the shortest path and how long they took
 * Timer that counts down how long the player has to get to their next class
 
 
@@ -71,16 +69,21 @@ Class List:
 * DrawingSurface: PApplet that displays the game
 * Grid: contains Cell objects and handles interactions in the game
 * Cell: one spacial unit that describes the school (pathways, buildings, friends, etc)
+   * PlayerCell: represents the player model, is controlled by the user and moves around on the campus grid
+   * BuildingCell: represents a campus building that the player cannot walk through
+   * PathCell: represents a cell that the player can walk on to navigate the campus
+      * FriendCell: represents a cell that mingles with the player at the cost of a time penalty
+      * CongestionCell: represents a cell that is part of a congested zone that the player can pass through at the cost of a time penalty
+   * VegetationCell: represents a cell that is vegetation (does nothing)
 * PlayerData: represents the player’s data throughout the game (score, lives, etc)
-* StartMenu: start menu that contains buttons (start, stats, instructions)
-* ShortestPathFinder: finds shortest path from Cell A to Cell B
+* Button: clickable buttons that will perform various functions (not JButton)
 
 
 
 
 Credits:
-* Jerry: responsible for Grid, Cell, ShortestPathFinder
-* Justin: responsible for Main, DrawingSurface, PlayerData, StartMenu
+* Jerry: responsible for Grid, Cell, Button
+* Justin: responsible for Main, DrawingSurface, PlayerData
 * External resources:
    * Processing Java library - graphics of the program
    * RecursionIn2DArray - inspiration
