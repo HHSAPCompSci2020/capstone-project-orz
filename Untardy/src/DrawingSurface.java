@@ -13,7 +13,7 @@ public class DrawingSurface extends PApplet {
 		background(255);
 		fill(0);
 		
-		text("testing, alpha build", 50, 50);
+		text("test, alpha build", 50, 50);
 	}
 
 }
