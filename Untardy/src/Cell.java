@@ -14,5 +14,4 @@ public class Cell {
 	public char displayTest() {
 		return cellType;
 	}
-
 }

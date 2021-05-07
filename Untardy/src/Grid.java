@@ -13,8 +13,8 @@ public class Grid {
         grid = new Cell[20][20];
     }
 
-    public Grid(int width, int height, String filename) {
-        grid = new Cell[width][height];
+    public Grid(int height, int width, String filename) {
+        grid = new Cell[height][width];
         this.readData(filename, grid);
     }
 
@@ -62,8 +62,8 @@ public class Grid {
                     for (int i = 0; i < line.length(); i++)
                         if (count < gameData.length && i < gameData[count].length)
                             gameData[count][i] = new Cell(line.charAt(i));
-
                     count++;
+
                 }
 
             } catch (IOException ex) {
