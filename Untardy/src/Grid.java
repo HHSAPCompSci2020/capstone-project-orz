@@ -6,7 +6,7 @@ import java.util.Scanner;
 import processing.core.PApplet;
 
 public class Grid {
-
+	
     private Cell[][] grid;
 
     public Grid() {
@@ -42,6 +42,7 @@ public class Grid {
             }
 
         }
+        
     }
 
     // Method used from GridTemplate.java in Recursion2DArrays lab
