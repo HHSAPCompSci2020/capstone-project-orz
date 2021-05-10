@@ -3,28 +3,57 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
-
 
 import processing.core.PApplet;
 
 public class Grid {
 
     private Cell[][] grid;
+    private int[] playerLocation;
 
     public Grid() {
-        grid = new Cell[20][20];
+        this.grid = new Cell[20][20];
+        this.playerLocation = new int[2];
+        Arrays.fill(playerLocation, -1);
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                if (grid[r][c] instanceof PlayerCell) {
+                    playerLocation[0] = r;
+                    playerLocation[1] = c;
+                    break;
+                }
+            }
+            if (playerLocation[0] != -1) {
+                break;
+            }
+        }
     }
 
     public Grid(int height, int width, String filename) {
         grid = new Cell[height][width];
-        for(int i=0; i<height; i++) {
-        	for(int j=0; j<width; j++) {
-        		grid[i][j] = new Cell();
-        	}
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                grid[i][j] = new Cell();
+            }
         }
         this.readData(filename, grid);
+        this.playerLocation = new int[2];
+        Arrays.fill(playerLocation, -1);
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                if (grid[r][c] instanceof PlayerCell) {
+                    playerLocation[0] = r;
+                    playerLocation[1] = c;
+                    break;
+                }
+            }
+            if (playerLocation[0] != -1) {
+                break;
+            }
+        }
     }
 
     // Method used from GridTemplate.java in Recursion2DArrays lab
@@ -59,7 +88,7 @@ public class Grid {
         for (int r = 0; r < rLen; r++) {
             for (int c = 0; c < cLen; c++) {
                 if (grid[r][c] == start) {
-                    startCords = new int[]{r, c};
+                    startCords = new int[] { r, c };
                     break;
                 }
             }
@@ -74,7 +103,8 @@ public class Grid {
         return new ArrayList<>(shortestPath);
     }
 
-    void dfs(Cell[][] grid, boolean[][] visited, Stack<Cell> shortestPath, Stack<Cell> currPath, int r, int c, Cell target) {
+    void dfs(Cell[][] grid, boolean[][] visited, Stack<Cell> shortestPath, Stack<Cell> currPath, int r, int c,
+            Cell target) {
         if (!shortestPath.isEmpty() && shortestPath.size() <= currPath.size()) {
             return;
         }
@@ -89,7 +119,7 @@ public class Grid {
             currPath.pop();
             return;
         }
-        final int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+        final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
         for (int[] dir : directions) {
             int nr = r + dir[0];
             int nc = c + dir[1];
@@ -100,27 +130,27 @@ public class Grid {
         visited[r][c] = false;
         currPath.pop();
     }
-    
+
     boolean inBounds(Cell[][] grid, int r, int c) {
         if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length) {
-            return false;   
+            return false;
         }
         return true;
     }
-    
+
     // Method used from GridTemplate.java in Recursion2DArrays lab
     public String toString() {
-		String output = "";
-		
-		for(int i=0; i<grid.length; i++) {
-			for(int j=0; j<grid[i].length; j++) {
-				output += grid[i][j].displayTest();
-			}
-			output += "\n";
-		}
-		
-		return output;
-	}
+        String output = "";
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                output += grid[i][j].displayTest();
+            }
+            output += "\n";
+        }
+
+        return output;
+    }
 
     // Method used from GridTemplate.java in Recursion2DArrays lab
     public void readData(String filename, Cell[][] gameData) {
