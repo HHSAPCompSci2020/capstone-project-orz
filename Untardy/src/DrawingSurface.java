@@ -52,10 +52,10 @@ public class DrawingSurface extends PApplet {
     	
     	//Display regular game
     	if(grid != null) {
-    		grid.draw(this, 0, 0, width, height*5/6);
+    		grid.draw(this, 0, 0, height, height);
     	}
-        text(clock.displayTime(), width*3/4, height*9/10);
-        text(playerData.printSchedule(), 50, 80);
+        text(clock.displayTime(), width*3/4, height*1/8);
+        text(playerData.printSchedule(), width*3/4, height*3/8);
         
         //time updates with every second, use with clock methods to update clock
   		if(millis() - time >= wait) {

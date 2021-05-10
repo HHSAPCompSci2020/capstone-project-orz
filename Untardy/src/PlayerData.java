@@ -13,6 +13,7 @@ public class PlayerData {
 	private String[] schedule;
 	private int score;
 	private int tardies;
+	private int currentPeriod;
 	
 	private final String[] englishClasses = new String[] {"C BUILDING: Lit & Writing", 
 			"C BUILDING: World Lit & Writing", "C BUILDING: American Lit", 
@@ -34,18 +35,21 @@ public class PlayerData {
 		this.schedule = assignSchedule();
 		this.score = 0;
 		this.tardies = 3;
+		this.currentPeriod = 1;
 	}
 	
 	public PlayerData(String[] schedule) {
 		this.schedule = schedule;
 		this.score = 0;
 		this.tardies = 3;
+		this.currentPeriod = 1;
 	}
 	
 	public PlayerData(String[] schedule, int score, int tardies) {
 		this.schedule = schedule;
 		this.score = score;
 		this.tardies = tardies;
+		this.currentPeriod = 1;
 	}
 	
 	public String[] assignSchedule() {
@@ -97,5 +101,13 @@ public class PlayerData {
 
 	public void setTardies(int tardies) {
 		this.tardies = tardies;
+	}
+	
+	public int getCurrentPeriod() {
+		return currentPeriod;
+	}
+	
+	public void setCurrentPeriod(int currentPeriod) {
+		this.currentPeriod = currentPeriod;
 	}
 }
