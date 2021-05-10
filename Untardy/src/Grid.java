@@ -19,6 +19,11 @@ public class Grid {
 
     public Grid(int height, int width, String filename) {
         grid = new Cell[height][width];
+        for(int i=0; i<height; i++) {
+        	for(int j=0; j<width; j++) {
+        		grid[i][j] = new Cell();
+        	}
+        }
         this.readData(filename, grid);
     }
 
@@ -102,6 +107,20 @@ public class Grid {
         }
         return true;
     }
+    
+    // Method used from GridTemplate.java in Recursion2DArrays lab
+    public String toString() {
+		String output = "";
+		
+		for(int i=0; i<grid.length; i++) {
+			for(int j=0; j<grid[i].length; j++) {
+				output += grid[i][j].displayTest();
+			}
+			output += "\n";
+		}
+		
+		return output;
+	}
 
     // Method used from GridTemplate.java in Recursion2DArrays lab
     public void readData(String filename, Cell[][] gameData) {

@@ -6,18 +6,21 @@ public class Cell {
 	
 	public Cell() {
 		this.cellType = 0;
-        isTraversable = true;
+        this.isTraversable = true;
+	}
+	
+	public Cell(char cellType) {
+		this.cellType = cellType;
 	}
 
     boolean getTraversable() {
         return this.isTraversable;
     }
 	
-	public Cell(char cellType) {
-		this.cellType = cellType;
-	}
-	
 	public char displayTest() {
+//		if(cellType == 0) {
+//			return ' ';
+//		}
 		return cellType;
 	}
 }

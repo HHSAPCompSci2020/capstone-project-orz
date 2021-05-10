@@ -21,7 +21,7 @@ public class DrawingSurface extends PApplet {
     private Clock clock;
 
     public DrawingSurface() {
-        grid = new Grid(0, 0, "testfiles/digital.txt");
+        grid = new Grid(20, 20, "testfiles/digital.txt");
         intro = true;
         tardy = false;
         finish = false;
@@ -51,7 +51,10 @@ public class DrawingSurface extends PApplet {
     	}
     	
     	//Display regular game
-        text(clock.displayTime(), 50, 50);
+    	if(grid != null) {
+    		grid.draw(this, 0, 0, width, height*5/6);
+    	}
+        text(clock.displayTime(), width*3/4, height*9/10);
         text(playerData.printSchedule(), 50, 80);
         
         //time updates with every second, use with clock methods to update clock
