@@ -34,12 +34,16 @@ public class Grid {
 
     public Grid(int height, int width, String filename) {
         grid = new Cell[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                grid[i][j] = new Cell();
-            }
-        }
+        
         this.readData(filename, grid);
+        for(int i=0; i<height; i++) {
+        	for(int j=0; j<width; j++) {
+        		if(grid[i][j] == null) {
+        			grid[i][j] = new Cell();
+        		}
+        		
+        	}
+        }
         this.playerLocation = new int[2];
         Arrays.fill(playerLocation, -1);
         for (int r = 0; r < grid.length; r++) {
@@ -69,14 +73,11 @@ public class Grid {
                 float rectX = x + c * rectWidth;
                 float rectY = y + r * rectHeight;
 
-                marker.rect(rectX, rectY, rectWidth, rectHeight);
-
                 marker.pushStyle();
-                marker.fill(0);
-                marker.textSize(12);
-                marker.textAlign(marker.CENTER, marker.CENTER);
-                marker.text(grid[r][c].displayTest(), rectX + (rectWidth / 2), rectY + (rectHeight / 2));
+                marker.fill(grid[r][c].fillColor()[0], grid[r][c].fillColor()[1], grid[r][c].fillColor()[2]);
+                marker.rect(rectX, rectY, rectWidth, rectHeight);
                 marker.popStyle();
+                
             }
         }
     }
@@ -123,7 +124,7 @@ public class Grid {
         for (int[] dir : directions) {
             int nr = r + dir[0];
             int nc = c + dir[1];
-            if (inBounds(grid, nr, nc) && !visited[nr][nc] && grid[nr][nc].getTraversable()) {
+            if (inBounds(grid, nr, nc) && !visited[nr][nc] && grid[nr][nc].isTraversable()) {
                 dfs(grid, visited, shortestPath, currPath, nr, nc, target);
             }
         }
@@ -136,20 +137,6 @@ public class Grid {
             return false;
         }
         return true;
-    }
-
-    // Method used from GridTemplate.java in Recursion2DArrays lab
-    public String toString() {
-        String output = "";
-
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                output += grid[i][j].displayTest();
-            }
-            output += "\n";
-        }
-
-        return output;
     }
 
     // Method used from GridTemplate.java in Recursion2DArrays lab
@@ -168,8 +155,25 @@ public class Grid {
                 while (in.hasNext()) {
                     String line = in.nextLine();
                     for (int i = 0; i < line.length(); i++)
-                        if (count < gameData.length && i < gameData[count].length)
-                            gameData[count][i] = new Cell(line.charAt(i));
+                        if (count < gameData.length && i < gameData[count].length) {
+                        	if(line.charAt(i) == 'P') { //Player
+                        		System.out.println("test");
+                        		gameData[count][i] = new PlayerCell();
+                        	}else if(line.charAt(i) == '*') { //Building
+                        		System.out.println("test");
+                        		gameData[count][i] = new BuildingCell();
+
+                        	}else if(line.charAt(i) == ' ') { //Path
+                        		System.out.println("test");
+                        		gameData[count][i] = new PathCell();
+
+                        	}else if(line.charAt(i) == '.') { //Vegetation
+                        		gameData[count][i] = new VegetationCell();
+
+                        	}else {
+                        		gameData[count][i] = new Cell();
+                        	}
+                        }
                     count++;
 
                 }
