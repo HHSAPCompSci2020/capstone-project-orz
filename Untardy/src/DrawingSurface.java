@@ -53,7 +53,7 @@ public class DrawingSurface extends PApplet {
         //CHECKING CASES
         
         //Check if player is tardy
-        if(clock.getElapsedSec() == 61) {
+        if(clock.getElapsedSec() == 60) {
         	clock.setElapsedSec(0);
         	tardy = true;
         }
@@ -97,7 +97,7 @@ public class DrawingSurface extends PApplet {
         if (finish) {
         	
         	//Completed day
-        	if(playerData.getCurrentPeriod() == 4) {
+        	if(playerData.getCurrentPeriod() == 5) {
         		
         		//Congratulates the player for beating the game if completed Friday schedule
         		if(playerData.getCurrentDayName() == "Friday") {
@@ -116,7 +116,7 @@ public class DrawingSurface extends PApplet {
         		
         		//Congratulates the player for beating the current day's schedule 
             	else {
-            		JOptionPane.showMessageDialog(frame, "You completed the day! You earned " + playerData.getDayScore() + " You will now progress to the next day.");
+            		JOptionPane.showMessageDialog(frame, "You completed the day! You earned " + playerData.getDayScore() + " points, and will now progress to the next day.");
         			playerData.nextDay();
             	}
         	}
@@ -125,20 +125,22 @@ public class DrawingSurface extends PApplet {
         	else {
         		
         		//Congratulates the player for beating the current period, configures settings for next period
+        		String className = playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()-1].substring(
+        				playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()-1].indexOf(':') + 2);
         		if(playerData.getCurrentPeriod() == 1) {
-        			JOptionPane.showMessageDialog(frame, "You made it on time! Class and tutorial were over in an instant, don't be late to your next class!");
+        			JOptionPane.showMessageDialog(frame, "You made it on time! " + className + " and tutorial were over in an instant, don't be late to your next class!");
         			clock.setTime(10, 20, 0, "AM");
         		}
         		else if(playerData.getCurrentPeriod() == 2) {
-        			JOptionPane.showMessageDialog(frame, "You made it on time! Class and brunch were over in an instant, don't be late to your next class!");
+        			JOptionPane.showMessageDialog(frame, "You made it on time! " + className + " and brunch were over in an instant, don't be late to your next class!");
         			clock.setTime(11, 25, 0, "AM");
         		}
         		else if(playerData.getCurrentPeriod() == 3) {
-        			JOptionPane.showMessageDialog(frame, "You made it on time! Class was over in an instant, don't be late to your next class!");
+        			JOptionPane.showMessageDialog(frame, "You made it on time! " + className + " was over in an instant, don't be late to your next class!");
         			clock.setTime(12, 15, 0, "PM");
         		}
         		else if(playerData.getCurrentPeriod() == 4) {
-        			JOptionPane.showMessageDialog(frame, "You made it on time! Class and lunch were over in an instant, don't be late to your next class!");
+        			JOptionPane.showMessageDialog(frame, "You made it on time! " + className + " and lunch were over in an instant, don't be late to your next class!");
         			clock.setTime(1, 45, 0, "PM");
         		}
         		playerData.nextPeriod();
@@ -183,44 +185,56 @@ public class DrawingSurface extends PApplet {
         
         
         //Text display on the right side of the screen
-        pushStyle();
+        
         
         //Displays clock
+        pushStyle();
         textFont(clockFont);
         fill(255, 0, 0);
         textSize(34);
         text("Current Time", height + 20, height * 1 / 16);
         textSize(40);
         text(clock.displayTime(), height + 20, (height * 1 / 16) + 38);
+        popStyle();
         
+        
+        //Displays current objective of which period to get to
+        pushStyle();
         textFont(regFont);
-        textSize(22);
         fill(0, 0, 0);
+        textSize(22);
         
         String classTime = "";
         if(playerData.getCurrentPeriod() == 1) {
         	classTime = "8:50 AM";
+        	text("Objective: You're almost late! Get to period " + playerData.getCurrentPeriod(), height + 20, height * 1 / 4);
+        	text("by " + classTime + "!", height + 20, (height * 1 / 4) + 26);
         }
-        else if(playerData.getCurrentPeriod() == 2) {
-        	classTime = "10:25 AM";
+        else {
+        	if(playerData.getCurrentPeriod() == 2) {
+            	classTime = "10:25 AM";
+            }
+            else if(playerData.getCurrentPeriod() == 3) {
+            	classTime = "11:30 AM";
+            }
+            else if(playerData.getCurrentPeriod() == 4) {
+            	classTime = "12:20 PM";
+            }
+            else if(playerData.getCurrentPeriod() == 5) {
+            	classTime = "1:50 PM";
+            }
+        	text("Objective: Get from period " + (playerData.getCurrentPeriod()-1) + " to period " + (playerData.getCurrentPeriod()), height + 20, height * 1 / 4); 
+        	text("by " + classTime + "!", height + 20, (height * 1 / 4) + 26);
         }
-        else if(playerData.getCurrentPeriod() == 3) {
-        	classTime = "11:30 AM";
-        }
-        else if(playerData.getCurrentPeriod() == 4) {
-        	classTime = "12:20 PM";
-        }
-        else if(playerData.getCurrentPeriod() == 5) {
-        	classTime = "1:50 PM";
-        }
-
-        //Displays current objective of which period to get to
-        text("Get from period " + playerData.getCurrentPeriod() + " to period " + (playerData.getCurrentPeriod()+1) + " by " + classTime + "!", height + 20, height * 3 / 10);
         
         //Displays current day's schedule
         text("Class Schedule", height + 20, height * 4 / 10);
+        line(height + 20, height * 4 / 10, (height + 20) + (textWidth("Class Schedule")), height * 4 / 10);
 		for(int i=0; i<playerData.getSchedule(playerData.getCurrentDayNum()).length; i++) {
-			if(i == playerData.getCurrentPeriod() || i == playerData.getCurrentPeriod()-1) {
+			if(i < playerData.getCurrentPeriod()-1) {
+				fill(0, 153, 51);
+			}
+			else if(i == playerData.getCurrentPeriod()-1) {
 				fill(255, 128, 0);
 			}
 			text("Period " + (i+1) + ": " + playerData.getSchedule(playerData.getCurrentDayNum())[i], height + 20, (height * 4 / 10) + ((i+1) * 26));
