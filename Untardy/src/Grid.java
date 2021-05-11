@@ -82,6 +82,7 @@ public class Grid {
 
             }
         }
+        marker.fill(0);
     }
 
     List<Cell> findShortestPath(Cell[][] grid, Cell start, Cell end) {

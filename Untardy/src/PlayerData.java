@@ -10,10 +10,12 @@ import java.util.Collections;
 
 public class PlayerData {
 	
-	private String[] schedule;
+	private String[][] schedules;
 	private int score;
 	private int tardies;
 	private int currentPeriod;
+	private int currentDay;
+	private int dayScore;
 	
 	private final String[] englishClasses = new String[] {"C BUILDING: Lit & Writing", 
 			"C BUILDING: World Lit & Writing", "C BUILDING: American Lit", 
@@ -32,24 +34,12 @@ public class PlayerData {
 			"GYM: PE Weights"};
 	
 	public PlayerData() {
-		this.schedule = assignSchedule();
+		this.schedules = new String[][] {assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule()};
 		this.score = 0;
-		this.tardies = 3;
+		this.tardies = 0;
 		this.currentPeriod = 1;
-	}
-	
-	public PlayerData(String[] schedule) {
-		this.schedule = schedule;
-		this.score = 0;
-		this.tardies = 3;
-		this.currentPeriod = 1;
-	}
-	
-	public PlayerData(String[] schedule, int score, int tardies) {
-		this.schedule = schedule;
-		this.score = score;
-		this.tardies = tardies;
-		this.currentPeriod = 1;
+		this.currentDay = 0;
+		this.dayScore = 0;
 	}
 	
 	public String[] assignSchedule() {
@@ -71,20 +61,12 @@ public class PlayerData {
 		return classSchedule;
 	}
 	
-	public String printSchedule() {
-		String s = "";
-		for(int i=0; i<schedule.length; i++) {
-			s += "Period " + (i+1) + ": " + schedule[i] + "\n";
-		}
-		return s;
+	public String[] getSchedule(int x) {
+		return schedules[x];
 	}
 	
-	public String[] getSchedule() {
-		return schedule;
-	}
-	
-	public void setSchedule(String[] schedule) {
-		this.schedule = schedule;
+	public void setSchedule(int x, String[] schedule) {
+		this.schedules[x] = schedule;
 	}
 	
 	public int getScore() {
@@ -110,4 +92,74 @@ public class PlayerData {
 	public void setCurrentPeriod(int currentPeriod) {
 		this.currentPeriod = currentPeriod;
 	}
+	
+	public String getCurrentDayName() {
+		if(currentDay == 0) {
+			return "Monday";
+		}
+		if(currentDay == 1) {
+			return "Tuesday";
+		}
+		if(currentDay == 2) {
+			return "Wednesday";
+		}
+		if(currentDay == 3) {
+			return "Thursday";
+		}
+		if(currentDay == 4) {
+			return "Friday";
+		}
+		return "";
+	}
+	
+	public int getCurrentDayNum() {
+		return this.currentDay;
+	}
+	
+	public void setCurrentDay(int currentDay) {
+		this.currentDay = currentDay;
+	}
+	
+	public int getDayScore() {
+		return this.dayScore;
+	}
+	
+	public void setDayScore(int dayScore) {
+		this.dayScore = dayScore;
+	}
+	
+	public void restartDay() {
+		tardies++;
+		currentPeriod = 1;
+		dayScore = 0;
+	}
+	
+	public void restartGame() {
+		schedules = new String[][] {assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule()};
+		score = 0;
+		tardies = 0;
+		currentPeriod = 1;
+		currentDay = 0;
+		dayScore = 0;
+	}
+	
+	public void nextDay() {
+		setCurrentPeriod(1);
+		currentDay++;
+		dayScore = 0;
+	}
+	
+	public void nextPeriod() {
+		currentPeriod++;
+		score += dayScore;
+	}
+	
+	/*
+	 * private String[] schedule;
+private int score;
+private int tardies;
+private int currentPeriod;
+private int currentDay;
+private int dayScore;
+	 */
 }
