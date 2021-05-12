@@ -50,20 +50,7 @@ public class DrawingSurface extends PApplet {
         background(211, 211, 211);
         fill(0);
         
-        //CHECKING CASES
         
-        //Check if player is tardy
-        if(clock.getElapsedSec() == 60) {
-        	clock.setElapsedSec(0);
-        	tardy = true;
-        }
-        
-        //Check if player reached building
-        String targetClass = playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()];
-        char targetClassBuilding = targetClass.charAt(0);
-        if (grid.hasReachedBuilding(targetClassBuilding)) {
-        	this.finish = true;
-        }
 
         if (intro) {
         }
@@ -92,6 +79,15 @@ public class DrawingSurface extends PApplet {
         		JOptionPane.showMessageDialog(frame, "You were tardy to class! You've received a tardy, and will restart the day.");
     			playerData.restartDay();
         	}
+        	
+        	if(playerData.getCurrentPeriod() == 1) {
+        		//Put player at entrance of school
+        	}
+        	else if(playerData.getCurrentPeriod() > 1) {
+        		//Put player on/next to current period's entrance
+        		//should be playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()-1]
+        	}
+        	
         	clock.setTime(8, 45, 0, "AM");
         	clock.setElapsedSec(0);
         	cover = true;
@@ -253,7 +249,20 @@ public class DrawingSurface extends PApplet {
         
         popStyle();
 
-       
+        //CHECKING CASES
+        
+        //Check if player is tardy
+        if(clock.getElapsedSec() == 60) {
+        	clock.setElapsedSec(0);
+        	tardy = true;
+        }
+   
+        //Check if player reached building
+        String targetClass = playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()-1];
+        char targetClassBuilding = targetClass.charAt(0);
+        if (grid.hasReachedBuilding(targetClassBuilding)) {
+        	this.finish = true;
+        }
     }
 
     public void keyPressed() {
@@ -275,11 +284,6 @@ public class DrawingSurface extends PApplet {
         //Uncovers the grid
         if(cover && keyCode == ' ') {
         	cover = false;
-        }
-        
-        //TESTING PURPOSES
-        else if(!cover && keyCode == ' ') {
-        	finish = true;
         }
     }
 }
