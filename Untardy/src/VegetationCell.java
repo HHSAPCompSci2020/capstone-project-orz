@@ -5,6 +5,6 @@ public class VegetationCell extends Cell {
     }
 
     public int[] fillColor() {
-    	return new int[] {0, 255, 0};
+    	return new int[] {51, 153, 51};
     }
 }
