@@ -30,8 +30,8 @@ public class PlayerData {
 			"I BUILDING: AP Env. Science"};
 	private final String[] socialscienceClasses = new String[] {"A BUILDING: World History", "A BUILDING: US History", 
 			"A BUILDING: AP US History", "A BUILDING: US Gov't", "A BUILDING: AP US Gov't", "A BUILDING: Economics"};
-	private final String[] peClasses = new String[] {"GYM: PE 9", "GYM: PE 10", "GYM: PE 11", "GYM: PE 12",
-			"GYM: PE Weights"};
+	private final String[] peClasses = new String[] {"G GYM: PE 9", "G GYM: PE 10", "G GYM: PE 11", "G GYM: PE 12",
+			"G GYM: PE Weights"};
 	
 	public PlayerData() {
 		this.schedules = new String[][] {assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule()};

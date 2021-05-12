@@ -59,6 +59,11 @@ public class DrawingSurface extends PApplet {
         }
         
         //Check if player reached building
+        String targetClass = playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()];
+        char targetClassBuilding = targetClass.charAt(0);
+        if (grid.hasReachedBuilding(targetClassBuilding)) {
+        	this.finish = true;
+        }
 
         if (intro) {
         }

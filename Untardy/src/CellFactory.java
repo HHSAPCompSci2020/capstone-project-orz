@@ -4,8 +4,11 @@ public class CellFactory {
     }
 
     public Cell generateCell(char c) {
+    	if (Character.isLetter(c)) {
+    		return new EntranceCell(c);
+    	}
         switch (c) {
-            case 'P':
+            case '@':
                 return new PlayerCell();
             case '*':
                 return new BuildingCell();
