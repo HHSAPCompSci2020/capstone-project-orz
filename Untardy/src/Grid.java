@@ -61,6 +61,16 @@ public class Grid {
             }
         }
     }
+    
+    public boolean hasReachedBuilding(char targetBuildingChar) {
+    	if (this.cellUnderPlayer instanceof EntranceCell) {
+    		char buildingChar = ((EntranceCell) this.cellUnderPlayer).getBuildingChar();
+    		if (buildingChar == targetBuildingChar) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
     // Method used from GridTemplate.java in Recursion2DArrays lab
     public void draw(PApplet marker, float x, float y, float width, float height) {
