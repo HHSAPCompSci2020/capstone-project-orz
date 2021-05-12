@@ -218,23 +218,14 @@ public class Grid {
             try {
                 reader = new FileReader(dataFile);
                 in = new Scanner(reader);
-
+                CellFactory cellFactory = new CellFactory();
                 while (in.hasNext()) {
                     String line = in.nextLine();
                     for (int i = 0; i < line.length(); i++)
                         if (count < gameData.length && i < gameData[count].length) {
-                            if (line.charAt(i) == 'P') { // Player
-                                gameData[count][i] = new PlayerCell();
-                            } else if (line.charAt(i) == '*') { // Building
-                                gameData[count][i] = new BuildingCell();
-
-                            } else if (line.charAt(i) == ' ') { // Path
-                                gameData[count][i] = new PathCell();
-                            } else if (line.charAt(i) == '.') { // Vegetation
-                                gameData[count][i] = new VegetationCell();
-                            } else {
-                                gameData[count][i] = new Cell();
-                            }
+                        	char c = line.charAt(i);
+                        	Cell newCell = cellFactory.generateCell(c);
+                        	gameData[count][i] = newCell;
                         }
                     count++;
 
