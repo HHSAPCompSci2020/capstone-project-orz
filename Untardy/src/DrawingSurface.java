@@ -1,5 +1,6 @@
 
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.JOptionPane;
 
@@ -36,7 +37,7 @@ public class DrawingSurface extends PApplet {
      * Constructs a DrawingSurface object and initializes relevant fields
      */
     public DrawingSurface() {
-        grid = new Grid(50, 50, "testfiles/homestead.txt");
+        grid = new Grid(50, 50, "data" + File.separator + "homestead.txt");
         intro = true;
         tardy = false;
         finish = false;
@@ -150,7 +151,7 @@ public class DrawingSurface extends PApplet {
         		String className = player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1].substring(
         				player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1].indexOf(':') + 2);
         		if(player.getCurrentPeriod() == 1) {
-        			JOptionPane.showMessageDialog(frame, "You made it on time! " + className + "  were over in an instant, don't be late to your next class!");
+        			JOptionPane.showMessageDialog(frame, "You made it on time! " + className + " was over in an instant, don't be late to your next class!");
         			clock.setTime(7, 55, 0, "AM");
         		}
         		else if(player.getCurrentPeriod() == 2) {

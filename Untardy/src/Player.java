@@ -48,7 +48,7 @@ public class Player {
 	
 	/**
 	 * Randomizes a Player object's schedules throughout the week by randomly selecting classes from the fields of String arrays of different types of classes
-	 * @return
+	 * @return a randomized schedule for one day of the player's weekly schedule
 	 */
 	public String[] assignSchedule() {
 		ArrayList<String> shuffleClasses = new ArrayList<String>();
