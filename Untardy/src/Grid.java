@@ -10,7 +10,7 @@ import java.util.Stack;
 import processing.core.PApplet;
 /**
  * 
- * @author jerry
+ * @author Jerry Wu
  *
  */
 public class Grid {

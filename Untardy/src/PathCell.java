@@ -1,6 +1,6 @@
 /**
  * 
- * @author jerry
+ * @author Jerry Wu
  *
  */
 public class PathCell extends Cell {
