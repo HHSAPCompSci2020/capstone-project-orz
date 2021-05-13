@@ -12,9 +12,8 @@ public class EntranceCell extends Cell {
 	}
 	
 	public int[] fillColor() {
-		return new int[] {12, 12, 12};
+		return new int[] {102, 51, 0};
 	}
-	
 	
 	public char getBuildingChar() {
 		return buildingChar;
