@@ -80,12 +80,9 @@ public class DrawingSurface extends PApplet {
     			playerData.restartDay();
         	}
         	
-        	if(playerData.getCurrentPeriod() == 1) {
+        	if (playerData.getCurrentPeriod() == 1) {
         		//Put player at entrance of school
-        	}
-        	else if(playerData.getCurrentPeriod() > 1) {
-        		//Put player on/next to current period's entrance
-        		//should be playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()-1]
+        		 grid.setPlayerLoc(17, 3);
         	}
         	
         	clock.setTime(8, 45, 0, "AM");

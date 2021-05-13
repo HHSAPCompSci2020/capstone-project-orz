@@ -151,6 +151,19 @@ public class Grid {
         }
         return true;
     }
+    
+    public void setPlayerLoc(int r, int c) {
+    	if (inBounds(grid, r, c) && grid[r][c].isTraversable()) {
+            int pr = playerLocation[0];
+            int pc = playerLocation[1];
+            Cell playerCell = grid[pr][pc];
+            grid[pr][pc] = cellUnderPlayer;
+            cellUnderPlayer = grid[r][c];
+            grid[r][c] = playerCell;
+            playerLocation[0] = r;
+            playerLocation[1] = c;
+        }
+    }
 
     public void movePlayerUp() {
         int r = playerLocation[0];
@@ -158,14 +171,7 @@ public class Grid {
         int[] dir = { -1, 0 };
         int nr = r + dir[0];
         int nc = c + dir[1];
-        if (inBounds(grid, nr, nc) && grid[nr][nc].isTraversable()) {
-            Cell playerCell = grid[r][c];
-            grid[r][c] = cellUnderPlayer;
-            cellUnderPlayer = grid[nr][nc];
-            grid[nr][nc] = playerCell;
-            playerLocation[0] = nr;
-            playerLocation[1] = nc;
-        }
+        setPlayerLoc(nr, nc);
     }
 
     public void movePlayerDown() {
@@ -174,14 +180,7 @@ public class Grid {
         int[] dir = { 1, 0 };
         int nr = r + dir[0];
         int nc = c + dir[1];
-        if (inBounds(grid, nr, nc) && grid[nr][nc].isTraversable()) {
-            Cell playerCell = grid[r][c];
-            grid[r][c] = cellUnderPlayer;
-            cellUnderPlayer = grid[nr][nc];
-            grid[nr][nc] = playerCell;
-            playerLocation[0] = nr;
-            playerLocation[1] = nc;
-        }
+        setPlayerLoc(nr, nc);
     }
 
     public void movePlayerLeft() {
@@ -190,14 +189,7 @@ public class Grid {
         int[] dir = { 0, -1 };
         int nr = r + dir[0];
         int nc = c + dir[1];
-        if (inBounds(grid, nr, nc) && grid[nr][nc].isTraversable()) {
-            Cell playerCell = grid[r][c];
-            grid[r][c] = cellUnderPlayer;
-            cellUnderPlayer = grid[nr][nc];
-            grid[nr][nc] = playerCell;
-            playerLocation[0] = nr;
-            playerLocation[1] = nc;
-        }
+        setPlayerLoc(nr, nc);
     }
 
     public void movePlayerRight() {
@@ -206,14 +198,7 @@ public class Grid {
         int[] dir = { 0, 1 };
         int nr = r + dir[0];
         int nc = c + dir[1];
-        if (inBounds(grid, nr, nc) && grid[nr][nc].isTraversable()) {
-            Cell playerCell = grid[r][c];
-            grid[r][c] = cellUnderPlayer;
-            cellUnderPlayer = grid[nr][nc];
-            grid[nr][nc] = playerCell;
-            playerLocation[0] = nr;
-            playerLocation[1] = nc;
-        }
+        setPlayerLoc(nr, nc);
     }
 
     // Method used from GridTemplate.java in Recursion2DArrays lab
