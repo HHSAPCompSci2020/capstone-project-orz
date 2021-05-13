@@ -100,13 +100,17 @@ public class DrawingSurface extends PApplet {
         //Win condition
         if (finish) {
         	
+        	// add timeLeftOver to dayScore
+        	int timeLeftOver = 60 - clock.getElapsedSec();
+    		playerData.setDayScore(playerData.getDayScore() + timeLeftOver);
+        	
         	//Completed day
         	if(playerData.getCurrentPeriod() == 5) {
         		
         		//Congratulates the player for beating the game if completed Friday schedule
-        		if(playerData.getCurrentDayName() == "Friday") {
+        		if(playerData.getCurrentDayName().equals("Friday")) {
             		String[] options = new String[] {"Play Again", "Quit"};
-            		int choice = JOptionPane.showOptionDialog(frame, "Congratulations! You beat the game with a score of " + playerData.getScore() + " points. "
+            		int choice = JOptionPane.showOptionDialog(frame, "Congratulations! You beat the game with a score of " + (playerData.getScore() + playerData.getDayScore()) + " points. "
             				+ "Do you want to restart or quit the game?", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, null, options, options[0]);
             		
             		if(choice == 0) {
@@ -123,6 +127,9 @@ public class DrawingSurface extends PApplet {
             		JOptionPane.showMessageDialog(frame, "You completed the day! You earned " + playerData.getDayScore() + " points, and will now progress to the next day.");
         			playerData.nextDay();
         			
+            		// add dayScore to score and reset dayScore
+            		playerData.setScore(playerData.getScore() + playerData.getDayScore());
+            		playerData.setDayScore(0);
             	}
         		
         		grid.setPlayerLoc(entranceRow, entranceCol);
@@ -131,7 +138,6 @@ public class DrawingSurface extends PApplet {
         	
         	//Completed period
         	else {
-        		
         		//Congratulates the player for beating the current period, configures settings for next period
         		String className = playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()-1].substring(
         				playerData.getSchedule(playerData.getCurrentDayNum())[playerData.getCurrentPeriod()-1].indexOf(':') + 2);
