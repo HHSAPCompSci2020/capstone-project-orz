@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Stack;
 
 import processing.core.PApplet;
-
+/**
+ * 
+ * @author jerry
+ *
+ */
 public class Grid {
 
     private Cell[][] grid;
@@ -34,6 +38,12 @@ public class Grid {
         }
     }
 
+    /**
+     * creates new grid from filename
+     * @param height the row length of grid
+     * @param width the col length of grid
+     * @param filename populates grid with specific Cell based on filename characters
+     */
     public Grid(int height, int width, String filename) {
         grid = new Cell[height][width];
         this.cellUnderPlayer = new Cell();
@@ -62,6 +72,11 @@ public class Grid {
         }
     }
     
+    /**
+     * checks if player is on an EntranceCell which matches the targetBuildingChar 
+     * @param targetBuildingChar the target building char
+     * @return returns true is cellUnderPlayer is an EntranceCell and it has the same buildingChar as targetBuildingChar
+     */
     public boolean hasReachedBuilding(char targetBuildingChar) {
     	if (this.cellUnderPlayer instanceof EntranceCell) {
     		char buildingChar = ((EntranceCell) this.cellUnderPlayer).getBuildingChar();
@@ -72,7 +87,14 @@ public class Grid {
     	return false;
     }
 
-    // Method used from GridTemplate.java in Recursion2DArrays lab
+    /**
+     * draws grid
+     * @param marker PApplet marker
+     * @param x x-cord of upper left corner
+     * @param y y-cord of upper left corner
+     * @param width width of whole grid
+     * @param height height of whole grid
+     */
     public void draw(PApplet marker, float x, float y, float width, float height) {
         marker.noFill();
         final int rLen = grid.length;
@@ -95,6 +117,13 @@ public class Grid {
         marker.fill(0);
     }
 
+    /**
+     * finds shortest path from Cell start to Cell end
+     * @param grid grid of Cell
+     * @param start start Cell
+     * @param end end Cell
+     * @return List of Cell that are in the shortest path
+     */
     List<Cell> findShortestPath(Cell[][] grid, Cell start, Cell end) {
         int rLen = grid.length;
         int cLen = grid[0].length;
@@ -117,7 +146,17 @@ public class Grid {
         return new ArrayList<>(shortestPath);
     }
 
-    void dfs(Cell[][] grid, boolean[][] visited, Stack<Cell> shortestPath, Stack<Cell> currPath, int r, int c,
+    /**
+     * helper method to find shortest path for findShortestPath method
+     * @param grid grid of Cell
+     * @param visited boolean array to keep track of visited cells
+     * @param shortestPath stores shortest path Cells
+     * @param currPath stores current path of Cells
+     * @param r current row index 
+     * @param c current col index
+     * @param target target Cell
+     */
+    private void dfs(Cell[][] grid, boolean[][] visited, Stack<Cell> shortestPath, Stack<Cell> currPath, int r, int c,
             Cell target) {
         if (!shortestPath.isEmpty() && shortestPath.size() <= currPath.size()) {
             return;
@@ -145,6 +184,13 @@ public class Grid {
         currPath.pop();
     }
 
+    /**
+     * returns true if row r and col c are valid indexes of grid
+     * @param grid grid of Cells
+     * @param r row index
+     * @param c col index
+     * @return returns true if r and c are valid indexes of grid, returns false otherwise
+     */
     boolean inBounds(Cell[][] grid, int r, int c) {
         if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length) {
             return false;
@@ -152,6 +198,11 @@ public class Grid {
         return true;
     }
     
+    /**
+     * sets player location to row r and col c if row r and col c are valid indexes in grid and grid[r][c] is a traversable cell
+     * @param r row index
+     * @param c col index
+     */
     public void setPlayerLoc(int r, int c) {
     	if (inBounds(grid, r, c) && grid[r][c].isTraversable()) {
             int pr = playerLocation[0];
@@ -165,6 +216,9 @@ public class Grid {
         }
     }
 
+    /**
+     * moves player up if moving up is within the grid and the cell above is traversable
+     */
     public void movePlayerUp() {
         int r = playerLocation[0];
         int c = playerLocation[1];
@@ -174,6 +228,9 @@ public class Grid {
         setPlayerLoc(nr, nc);
     }
 
+    /**
+     * moves player down if moving down is within the grid and the cell below is traversable
+     */
     public void movePlayerDown() {
         int r = playerLocation[0];
         int c = playerLocation[1];
@@ -183,6 +240,9 @@ public class Grid {
         setPlayerLoc(nr, nc);
     }
 
+    /**
+     * moves player left if moving left is within the grid and the cell to the left is traversable
+     */
     public void movePlayerLeft() {
         int r = playerLocation[0];
         int c = playerLocation[1];
@@ -192,6 +252,9 @@ public class Grid {
         setPlayerLoc(nr, nc);
     }
 
+    /**
+     * moves player right if moving right is within the grid and the cell to the right is traversable
+     */
     public void movePlayerRight() {
         int r = playerLocation[0];
         int c = playerLocation[1];
@@ -201,7 +264,11 @@ public class Grid {
         setPlayerLoc(nr, nc);
     }
 
-    // Method used from GridTemplate.java in Recursion2DArrays lab
+    /**
+     * fills gameData with Cell types which are specified through the characters in filename
+     * @param filename String that contains characters which determine Cell type
+     * @param gameData 2D grid of cells
+     */
     public void readData(String filename, Cell[][] gameData) {
         File dataFile = new File(filename);
 
