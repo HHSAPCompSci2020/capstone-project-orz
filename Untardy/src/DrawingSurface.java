@@ -33,7 +33,7 @@ public class DrawingSurface extends PApplet {
     private int entranceCol;
 
     public DrawingSurface() {
-        grid = new Grid(20, 20, "testfiles/digital.txt");
+        grid = new Grid(50, 50, "testfiles/homestead.txt");
         intro = true;
         tardy = false;
         finish = false;
