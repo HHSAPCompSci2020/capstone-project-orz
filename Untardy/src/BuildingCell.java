@@ -5,6 +5,6 @@ public class BuildingCell extends Cell {
     }
     
     public int[] fillColor() {
-    	return new int[] {128, 128, 128};
+    	return new int[] {204, 153, 255};
     }
 }

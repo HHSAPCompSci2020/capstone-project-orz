@@ -16,6 +16,6 @@ public class PlayerCell extends Cell {
      * @return array of length 3 which corresponds with RGB value of Cell color
      */
     public int[] fillColor() {
-    	return new int[] {255, 255, 0};
+    	return new int[] {0, 255, 0};
     }
 }

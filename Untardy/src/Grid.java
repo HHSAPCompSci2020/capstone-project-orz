@@ -21,7 +21,7 @@ public class Grid {
 
     public Grid() {
         this.grid = new Cell[20][20];
-        this.cellUnderPlayer = new Cell();
+        this.cellUnderPlayer = new PathCell();
         this.playerLocation = new int[2];
         Arrays.fill(playerLocation, -1);
         for (int r = 0; r < grid.length; r++) {
@@ -46,7 +46,7 @@ public class Grid {
      */
     public Grid(int height, int width, String filename) {
         grid = new Cell[height][width];
-        this.cellUnderPlayer = new Cell();
+        this.cellUnderPlayer = new PathCell();
         this.readData(filename, grid);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
