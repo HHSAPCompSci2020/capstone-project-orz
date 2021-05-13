@@ -135,7 +135,7 @@ public class PlayerData {
 	}
 	
 	public void restartGame() {
-		schedules = new String[][] {assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule()};
+//		schedules = new String[][] {assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule(), assignSchedule()};
 		score = 0;
 		tardies = 0;
 		currentPeriod = 1;

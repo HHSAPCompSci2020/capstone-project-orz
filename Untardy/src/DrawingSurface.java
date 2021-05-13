@@ -28,6 +28,9 @@ public class DrawingSurface extends PApplet {
 
     private PlayerData playerData;
     private Clock clock;
+    
+    private int entranceRow;
+    private int entranceCol;
 
     public DrawingSurface() {
         grid = new Grid(20, 20, "testfiles/digital.txt");
@@ -37,6 +40,9 @@ public class DrawingSurface extends PApplet {
         cover = true;
         playerData = new PlayerData();
         clock = new Clock(8, 45, "AM");
+        
+        entranceRow = 17;
+        entranceCol = 3;
     }
 
     public void setup() {
@@ -82,7 +88,7 @@ public class DrawingSurface extends PApplet {
         	
         	if (playerData.getCurrentPeriod() == 1) {
         		//Put player at entrance of school
-        		 grid.setPlayerLoc(17, 3);
+        		 grid.setPlayerLoc(entranceRow, entranceCol);
         	}
         	
         	clock.setTime(8, 45, 0, "AM");
@@ -116,7 +122,11 @@ public class DrawingSurface extends PApplet {
             	else {
             		JOptionPane.showMessageDialog(frame, "You completed the day! You earned " + playerData.getDayScore() + " points, and will now progress to the next day.");
         			playerData.nextDay();
+        			
             	}
+        		
+        		grid.setPlayerLoc(entranceRow, entranceCol);
+        		clock.setTime(8, 45, 0, "AM");
         	}
         	
         	//Completed period
