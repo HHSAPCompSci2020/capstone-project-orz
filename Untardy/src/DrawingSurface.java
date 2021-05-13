@@ -278,7 +278,7 @@ public class DrawingSurface extends PApplet {
         //CHECK CASES
         
         //Check if player is tardy
-        if(clock.getElapsedSec() == 60) {
+        if(clock.getElapsedSec() == 300) {
         	clock.setElapsedSec(0);
         	tardy = true;
         }
