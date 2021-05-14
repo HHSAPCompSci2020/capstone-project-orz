@@ -81,27 +81,17 @@ Class List:
 * Cell: one spacial unit that describes the school (pathways, buildings, friends, etc)
    * PlayerCell: represents the player model, is controlled by the user and moves around on the campus grid
    * BuildingCell: represents a campus building that the player cannot walk through
-   * EntranceCell: represents the entrance to a campus building that the player must reach
    * PathCell: represents a cell that the player can walk on to navigate the campus
       * FriendCell: represents a cell that mingles with the player at the cost of a time penalty
       * CongestionCell: represents a cell that is part of a congested zone that the player can pass through at the cost of a time penalty
    * VegetationCell: represents a cell that is vegetation (does nothing)
-* CellFactory: helps to fill a Grid object with Cell objects depending on characters present in the read-in text file
-* Player: represents the player’s data throughout the game (schedule, score, lives, etc)
+* PlayerData: represents the player’s data throughout the game (schedule, score, lives, etc)
 
 
 Credits:
-* Jerry: responsible for Grid, Cell, CellFactory, PlayerCell, BuildingCell, EntranceCell, PathCell, VegetationCell (stretch features: FriendCell, CongestionCell)
-   * Primarily responsible for grid/cell mechanics, such as player movement, different kinds of cells, etc
-* Justin: responsible for Main, DrawingSurface, Clock, Player
-   * Primarily responsible for game logic and display, such as checking cases for player tardy, win condition, and displaying the grid with clock, schedule, etc
+* Jerry: responsible for Grid, Cell, PlayerCell, BuildingCell, PathCell, VegetationCell (stretch features: FriendCell, CongestionCell)
+* Justin: responsible for Main, DrawingSurface, Clock, PlayerData
 * External resources:
-   * Inspiration:
-      * RecursionIn2DArray Lab - inspiration
-      * Google Maps - inspiration for the program
-   * Resources for the program
-      * Processing Java library - graphics of the program
-      * Google Fonts (fonts.google.com) - resource for fonts used
-      * DaFont (dafont.com) - resource for fonts used
-      * W3Schools (w3schools.com) - resource for finding RGB values for colors used
-      * StackOverflow (stackoverflow.com) - general help for troubleshooting
+   * Processing Java library - graphics of the program
+   * RecursionIn2DArray - inspiration
+   * Google Maps - inspiration

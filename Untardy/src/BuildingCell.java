@@ -15,7 +15,7 @@ public class BuildingCell extends Cell {
     /**
      * @return array of length 3 which corresponds with RGB value of Cell color
      */
-    public int[] getColor() {
+    public int[] fillColor() {
     	return new int[] {179, 179, 179};
     }
 }

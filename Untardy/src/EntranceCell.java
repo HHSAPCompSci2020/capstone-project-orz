@@ -18,12 +18,12 @@ public class EntranceCell extends Cell {
     /**
      * @return array of length 3 which corresponds with RGB value of Cell color
      */
-	public int[] getColor() {
+	public int[] fillColor() {
 		return new int[] {102, 51, 0};
 	}
 	
     /**
-     * @return building's char that this Cell corresponds with
+     * @return building's char that this Cell corrosponds with
      */
 	public char getBuildingChar() {
 		return buildingChar;

@@ -108,7 +108,7 @@ public class Grid {
                 float rectY = y + r * rectHeight;
 
                 marker.pushStyle();
-                marker.fill(grid[r][c].getColor()[0], grid[r][c].getColor()[1], grid[r][c].getColor()[2]);
+                marker.fill(grid[r][c].fillColor()[0], grid[r][c].fillColor()[1], grid[r][c].fillColor()[2]);
                 marker.rect(rectX, rectY, rectWidth, rectHeight);
                 marker.popStyle();
 
