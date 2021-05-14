@@ -23,6 +23,9 @@ public class Grid {
 	private Cell cellUnderPlayer;
 	private List<int[]> friendCellPositions;
 
+	/**
+	 * creates new Grid with default size 20 by 20
+	 */
 	public Grid() {
 		this.grid = new Cell[20][20];
 		this.cellUnderPlayer = new PathCell();
@@ -96,6 +99,10 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * updates all FriendCell positions
+	 * FriendCell will not update if it is next to the PlayerCell; mimics interaction / talking
+	 */
 	public void moveFriendCellPositions() {
 		Random rand = new Random();
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
