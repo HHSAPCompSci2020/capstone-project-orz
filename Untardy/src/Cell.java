@@ -25,7 +25,7 @@ public class Cell {
     /**
      * @return array of length 3 which corresponds with RGB value of Cell color
      */
-	public int[] fillColor() {
+	public int[] getColor() {
     	return new int[] {255, 255, 255};
     }
 }
