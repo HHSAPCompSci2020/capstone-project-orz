@@ -1,3 +1,4 @@
+package cells;
 /**
  * 
  * @author jerry
@@ -30,6 +31,8 @@ public class CellFactory {
                 return new PathCell();
             case '.':
                 return new VegetationCell();
+            case '&':
+            	return new FriendCell();
             default:
                 return new Cell();
         }

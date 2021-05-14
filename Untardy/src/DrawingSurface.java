@@ -32,6 +32,9 @@ public class DrawingSurface extends PApplet {
     
     private int entranceRow;
     private int entranceCol;
+    
+    private int moveFriendCellPositionsTime;
+    private final int updateFriendCellPositionsWait;
 
     /**
      * Constructs a DrawingSurface object and initializes relevant fields
@@ -47,6 +50,10 @@ public class DrawingSurface extends PApplet {
         
         entranceRow = 19;
         entranceCol = 47;
+        
+        this.moveFriendCellPositionsTime = 0;
+        this.updateFriendCellPositionsWait = 100;
+        
     }
 
     /**
@@ -290,6 +297,12 @@ public class DrawingSurface extends PApplet {
         if (grid.hasReachedBuilding(targetClassBuilding)) {
         	this.finish = true;
         }
+        
+        if (millis() - this.moveFriendCellPositionsTime >= this.updateFriendCellPositionsWait) {
+        	grid.moveFriendCellPositions();
+            this.moveFriendCellPositionsTime = millis();
+        }
+        
     }
 
     /**

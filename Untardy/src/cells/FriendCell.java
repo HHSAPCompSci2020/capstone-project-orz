@@ -1,14 +1,15 @@
+package cells;
 /**
  * 
  * @author Jerry Wu
  *
  */
-public class PlayerCell extends Cell {
+public class FriendCell extends Cell {
 	
 	/**
-	 * creates new PlayerCell
+	 * creates new FriendCell
 	 */
-    public PlayerCell() {
+    public FriendCell() {
         this.isTraversable = true;
     }
     
@@ -16,6 +17,6 @@ public class PlayerCell extends Cell {
      * @return array of length 3 which corresponds with RGB value of Cell color
      */
     public int[] getColor() {
-    	return new int[] {255, 0, 0};
+    	return new int[] {255, 192, 203};
     }
 }
