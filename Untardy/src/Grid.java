@@ -43,7 +43,18 @@ public class Grid {
 				break;
 			}
 		}
-
+		
+		Random rand = new Random();
+		for (int r = 0; r < grid.length; r++) {
+			for (int c = 0; c < grid[0].length; c++) {
+				if (grid[r][c] instanceof PathCell) {
+					int n = rand.nextInt(15);
+					if (n == 0) {
+						grid[r][c] = new FriendCell();
+					}
+				}
+			}
+		}
 		this.friendCellPositions = new ArrayList<>();
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
@@ -88,6 +99,20 @@ public class Grid {
 				break;
 			}
 		}
+		
+		Random rand = new Random();
+		for (int r = 0; r < grid.length; r++) {
+			for (int c = 0; c < grid[0].length; c++) {
+				if (grid[r][c] instanceof PathCell) {
+					
+					// frequency of FriendCell
+					int n = rand.nextInt(20);
+					if (n == 0) {
+						grid[r][c] = new FriendCell();
+					}
+				}
+			}
+		}
 
 		this.friendCellPositions = new ArrayList<>();
 		for (int r = 0; r < grid.length; r++) {
@@ -100,14 +125,13 @@ public class Grid {
 	}
 
 	/**
-	 * updates all FriendCell positions
-	 * FriendCell will not update if it is next to the PlayerCell; mimics interaction / talking
+	 * updates all FriendCell positions FriendCell will not update if it is next to
+	 * the PlayerCell; mimics interaction / talking
 	 */
 	public void moveFriendCellPositions() {
 		Random rand = new Random();
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
-		for (int i = 0; i < friendCellPositions.size(); i++) {
-			int[] pos = friendCellPositions.get(i);
+		for (int[] pos : friendCellPositions) {
 			int r = pos[0];
 			int c = pos[1];
 			boolean nextToPlayerCell = false;
@@ -176,7 +200,8 @@ public class Grid {
 				float rectY = y + r * rectHeight;
 
 				marker.pushStyle();
-				marker.fill(grid[r][c].getColor()[0], grid[r][c].getColor()[1], grid[r][c].getColor()[2]);
+				int[] color = grid[r][c].getColor();
+				marker.fill(color[0], color[1], color[2]);
 				marker.rect(rectX, rectY, rectWidth, rectHeight);
 				marker.popStyle();
 
