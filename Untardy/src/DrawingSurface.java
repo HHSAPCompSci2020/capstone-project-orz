@@ -299,10 +299,12 @@ public class DrawingSurface extends PApplet {
         }
         
         if (millis() - this.moveFriendCellPositionsTime >= this.updateFriendCellPositionsWait) {
-        	grid.moveFriendCellPositions();
             this.moveFriendCellPositionsTime = millis();
+            grid.moveFriendCellPositions();
         }
-        
+        if (grid.playerIsBlocked()) {
+        	grid.setRandomAdjFriendToPathCell();
+        }
     }
 
     /**

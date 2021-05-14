@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -43,7 +44,7 @@ public class Grid {
 				break;
 			}
 		}
-		
+
 		Random rand = new Random();
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
@@ -99,14 +100,14 @@ public class Grid {
 				break;
 			}
 		}
-		
+
 		Random rand = new Random();
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
 				if (grid[r][c] instanceof PathCell) {
-					
+
 					// frequency of FriendCell
-					int n = rand.nextInt(20);
+					int n = rand.nextInt(10);
 					if (n == 0) {
 						grid[r][c] = new FriendCell();
 					}
@@ -131,32 +132,63 @@ public class Grid {
 	public void moveFriendCellPositions() {
 		Random rand = new Random();
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
-		for (int[] pos : friendCellPositions) {
+		Iterator<int[]> itr = this.friendCellPositions.iterator();
+		while (itr.hasNext()) {
+			int[] pos = itr.next();
 			int r = pos[0];
 			int c = pos[1];
-			boolean nextToPlayerCell = false;
-			for (int[] dir : directions) {
-				int nr = r + dir[0];
-				int nc = c + dir[1];
-				if (inBounds(grid, nr, nc) && grid[nr][nc] instanceof PlayerCell) {
-					nextToPlayerCell = true;
-					break;
-				}
-			}
-			if (nextToPlayerCell) {
+			if (!(grid[r][c] instanceof FriendCell)) {
+				itr.remove();
 				continue;
 			}
+
 			int dirIdx = rand.nextInt(4);
 			int[] dir = directions[dirIdx];
 			int nr = r + dir[0];
 			int nc = c + dir[1];
 			if (inBounds(grid, nr, nc) && grid[nr][nc].isTraversable() && !(grid[nr][nc] instanceof EntranceCell)
-					&& !(grid[nr][nc] instanceof FriendCell) && !(grid[nr][nc] instanceof PlayerCell)) {
+					&& !(grid[nr][nc] instanceof PlayerCell)) {
 				Cell friendCell = grid[r][c];
 				grid[r][c] = grid[nr][nc];
 				grid[nr][nc] = friendCell;
 				pos[0] = nr;
 				pos[1] = nc;
+			}
+		}
+	}
+	
+	/**
+	 * check if player is blocked in all 4 cardinal directions
+	 * @return returns true if player is blocked
+	 */
+	public boolean playerIsBlocked() {
+		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+		int r = this.playerLocation[0];
+		int c = this.playerLocation[1];
+		int blockedDirCount = 0;
+		for (int[] dir : directions) {
+			int nr = r + dir[0];
+			int nc = c + dir[1];
+			if (!inBounds(grid, nr, nc) || !grid[nr][nc].isTraversable()) {
+				blockedDirCount++;
+			}
+		}
+		return blockedDirCount == 4;
+	}
+	
+	/**
+	 * changes one random FriendCell that is adjacent to player to a PathCell
+	 */
+	public void setRandomAdjFriendToPathCell() {
+		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+		int r = this.playerLocation[0];
+		int c = this.playerLocation[1];
+		for (int[] dir : directions) {
+			int nr = r + dir[0];
+			int nc = c + dir[1];
+			if (inBounds(grid, nr, nc) && grid[nr][nc] instanceof FriendCell) {
+				grid[nr][nc] = new PathCell();
+				break;
 			}
 		}
 	}

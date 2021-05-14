@@ -11,7 +11,7 @@ public class PlayerCell extends Cell {
 	 * creates new PlayerCell
 	 */
 	public PlayerCell() {
-		this.isTraversable = true;
+		this.isTraversable = false;
 		this.color = new int[] { 255, 0, 0 };
 	}
 

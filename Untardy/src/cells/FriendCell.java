@@ -11,7 +11,7 @@ public class FriendCell extends Cell {
 	 * creates new FriendCell
 	 */
 	public FriendCell() {
-		this.isTraversable = true;
+		this.isTraversable = false;
 		this.color = new int[] { 255, 192, 203 };
 	}
 
