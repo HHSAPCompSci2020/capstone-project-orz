@@ -141,6 +141,20 @@ public class Grid {
 				itr.remove();
 				continue;
 			}
+			int pr = this.playerLocation[0];
+			int pc = this.playerLocation[1];
+			boolean adjToPlayer = false;
+			for (int[] dir : directions) {
+				int nr = r + dir[0];
+				int nc = c + dir[1];
+				if (nr == pr && nc == pc) {
+					adjToPlayer = true;
+					break;
+				}
+			}
+			if (adjToPlayer) {
+				continue;
+			}
 
 			int dirIdx = rand.nextInt(4);
 			int[] dir = directions[dirIdx];
