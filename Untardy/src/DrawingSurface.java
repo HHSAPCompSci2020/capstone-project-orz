@@ -35,6 +35,9 @@ public class DrawingSurface extends PApplet {
     
     private int moveFriendCellPositionsTime;
     private final int updateFriendCellPositionsWait;
+    
+    private double friendCellFreq;
+    private final double increaseFriendCellFreqFactor;
 
     /**
      * Constructs a DrawingSurface object and initializes relevant fields
@@ -54,6 +57,9 @@ public class DrawingSurface extends PApplet {
         this.moveFriendCellPositionsTime = 0;
         this.updateFriendCellPositionsWait = 100;
         
+        this.friendCellFreq = 0.1;
+        this.increaseFriendCellFreqFactor = 0.2;
+        
     }
 
     /**
@@ -63,6 +69,8 @@ public class DrawingSurface extends PApplet {
     	clockFont = createFont("DS-DIGI.TTF", 20);
     	regFont = createFont("Oswald-VariableFont_wght.ttf", 20);
         time = millis();
+        
+        grid.generateFriendCells(friendCellFreq);
     }
 
     /**
@@ -115,6 +123,8 @@ public class DrawingSurface extends PApplet {
 
         //Win condition
         if (finish) {
+        	this.friendCellFreq += this.increaseFriendCellFreqFactor;
+        	grid.generateFriendCells(this.friendCellFreq);
         	
         	// add timeLeftOver to dayScore
         	int timeLeftOver = 60 - clock.getElapsedSec();
