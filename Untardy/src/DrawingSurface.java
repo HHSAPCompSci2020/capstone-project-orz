@@ -85,7 +85,14 @@ public class DrawingSurface extends PApplet {
         
         //Introduction case
         if (intro) {
-        	//TBD
+        	JOptionPane.showMessageDialog(frame, 
+        			"Welcome to Untardy! This game simulates a student at Homestead walking from class to class with the\n"
+        			+ "objective of not being tardy. You will play through a full week of a student's class schedule. If\n"
+        			+ "you reach 3 tardies throughout the week, you will have to restart from the beginning of the week.\n\n"
+        			+ "There will be a clock at the top right of the game, as well as your current objective and your current\n"
+        			+ "day's class schedule on the right side of the game. At the end of the day, you will earn points\n"
+        			+ "depending on how fast you complete your objectives and how optimal the paths you walked to class were. Good luck!");
+        	intro = false;
         }
         
         //Tardy case
@@ -315,6 +322,8 @@ public class DrawingSurface extends PApplet {
         if (grid.playerIsBlocked()) {
         	grid.setRandomAdjFriendToPathCell();
         }
+        
+        
     }
 
     /**
@@ -342,4 +351,5 @@ public class DrawingSurface extends PApplet {
         	cover = false;
         }
     }
+    
 }
