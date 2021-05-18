@@ -86,13 +86,11 @@ public class Grid {
 	
 	/**
 	 * randomly turns PathCell into FriendCell based on frequency freq
-	 * @param freq a double ranging from 0.0 inclusive to 1.0 inclusive which corrolates with the chance 
+	 * @param freq a double which correlates with the chance 
 	 * of a PathCell turning into a FriendCell
+	 * ex. 0.25 means a PathCell has a 25% chance of turning into a FriendCell
 	 */
 	public void generateFriendCells(double freq) {
-		if (freq > 1) {
-			freq %= 1;
-		}
 		this.friendCellPositions.clear();
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
