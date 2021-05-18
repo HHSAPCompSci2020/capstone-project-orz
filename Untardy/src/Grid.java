@@ -28,6 +28,7 @@ public class Grid {
 	 * creates new Grid with default size 20 by 20
 	 */
 	public Grid() {
+		this.friendCellPositions = new ArrayList<>();
 		this.grid = new Cell[20][20];
 		this.cellUnderPlayer = new PathCell();
 		this.playerLocation = new int[2];
@@ -44,26 +45,6 @@ public class Grid {
 				break;
 			}
 		}
-
-		Random rand = new Random();
-		for (int r = 0; r < grid.length; r++) {
-			for (int c = 0; c < grid[0].length; c++) {
-				if (grid[r][c] instanceof PathCell) {
-					int n = rand.nextInt(15);
-					if (n == 0) {
-						grid[r][c] = new FriendCell();
-					}
-				}
-			}
-		}
-		this.friendCellPositions = new ArrayList<>();
-		for (int r = 0; r < grid.length; r++) {
-			for (int c = 0; c < grid[0].length; c++) {
-				if (grid[r][c] instanceof FriendCell) {
-					friendCellPositions.add(new int[] { r, c });
-				}
-			}
-		}
 	}
 
 	/**
@@ -75,13 +56,14 @@ public class Grid {
 	 *                 characters
 	 */
 	public Grid(int height, int width, String filename) {
+		this.friendCellPositions = new ArrayList<>();
 		this.grid = new Cell[height][width];
 		this.cellUnderPlayer = new PathCell();
 		this.readData(filename, grid);
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
 				if (grid[i][j] == null) {
-					grid[i][j] = new Cell();
+					grid[i][j] = new PathCell();
 				}
 
 			}
@@ -100,26 +82,25 @@ public class Grid {
 				break;
 			}
 		}
-
-		Random rand = new Random();
+	}
+	
+	/**
+	 * randomly turns PathCell into FriendCell based on frequency freq
+	 * @param freq a double ranging from 0.0 inclusive to 1.0 inclusive which corrolates with the chance 
+	 * of a PathCell turning into a FriendCell
+	 */
+	public void generateFriendCells(double freq) {
+		if (freq > 1) {
+			freq %= 1;
+		}
+		this.friendCellPositions.clear();
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
 				if (grid[r][c] instanceof PathCell) {
-
-					// frequency of FriendCell
-					int n = rand.nextInt(10);
-					if (n == 0) {
+					if (Math.random() <= freq) {
 						grid[r][c] = new FriendCell();
+						this.friendCellPositions.add(new int[] {r, c});
 					}
-				}
-			}
-		}
-
-		this.friendCellPositions = new ArrayList<>();
-		for (int r = 0; r < grid.length; r++) {
-			for (int c = 0; c < grid[0].length; c++) {
-				if (grid[r][c] instanceof FriendCell) {
-					friendCellPositions.add(new int[] { r, c });
 				}
 			}
 		}
