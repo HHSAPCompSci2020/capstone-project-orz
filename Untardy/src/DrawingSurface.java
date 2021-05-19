@@ -57,8 +57,8 @@ public class DrawingSurface extends PApplet {
         this.moveFriendCellPositionsTime = 0;
         this.updateFriendCellPositionsWait = 100;
         
-        this.friendCellFreq = 0.1;
-        this.increaseFriendCellFreqFactor = 0.2;
+        this.friendCellFreq = 0.01;
+        this.increaseFriendCellFreqFactor = 0.0000005;
         
     }
 
@@ -105,6 +105,7 @@ public class DrawingSurface extends PApplet {
         		
         		if(choice == 0) {
         			player.restartGame(0);
+        			friendCellFreq = 0.01; 
         		}
         		else {
         			exit();
@@ -115,6 +116,7 @@ public class DrawingSurface extends PApplet {
         	else {
         		JOptionPane.showMessageDialog(frame, "You were tardy to class! You've received a tardy, and will restart the day.");
     			player.restartDay();
+    			friendCellFreq -= (0.0000005 * (player.getCurrentPeriod()-1));
         	}
         	
         	if (player.getCurrentPeriod() == 1) {
