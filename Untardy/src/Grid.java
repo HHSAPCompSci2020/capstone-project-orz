@@ -45,6 +45,7 @@ public class Grid {
 				break;
 			}
 		}
+		setBuildingCellCharsToMatchEntranceCellChars();
 	}
 
 	/**
@@ -82,7 +83,44 @@ public class Grid {
 				break;
 			}
 		}
+		setBuildingCellCharsToMatchEntranceCellChars();
 	}
+	
+	
+	/**
+	 * set BuildingCell buildingChar to match EntranceCell buildingChar
+	 */
+	private void setBuildingCellCharsToMatchEntranceCellChars() {
+		for (int r = 0; r < grid.length; r++) {
+			for (int c = 0; c < grid[0].length; c++) {
+				if (grid[r][c] instanceof EntranceCell) {
+					char entranceCh = ((EntranceCell)grid[r][c]).getBuildingChar();
+					setAdjBuildingCellChars(entranceCh, r, c);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * helper method for setBuildingCellCharsToMatchEntranceCellChars to dfs and set BuildingCell buildingChar to EntranceCell buildingChar
+	 * @param entranceCh EntranceCell buildingChar
+	 * @param r row index in grid
+	 * @param c column index in grid
+	 */
+	private void setAdjBuildingCellChars(char entranceCh, int r, int c) {
+		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+		for (int[] dir : directions) {
+			int nr = r + dir[0];
+			int nc = c + dir[1];
+			if (inBounds(grid, nr, nc) && grid[nr][nc] instanceof BuildingCell) {
+				char buildingCh = ((BuildingCell)grid[nr][nc]).getBuildingChar();
+				if (buildingCh != entranceCh) {
+					((BuildingCell)grid[nr][nc]).setBuildingChar(entranceCh);
+					setAdjBuildingCellChars(entranceCh, nr, nc);
+				}
+			}
+		}
+	} 
 	
 	/**
 	 * randomly turns PathCell into FriendCell based on frequency freq
