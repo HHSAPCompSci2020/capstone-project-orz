@@ -263,9 +263,18 @@ public class Grid {
 				float rectY = y + r * rectHeight;
 
 				marker.pushStyle();
+				
 				int[] color = grid[r][c].getColor();
 				marker.fill(color[0], color[1], color[2]);
 				marker.rect(rectX, rectY, rectWidth, rectHeight);
+				
+				if(grid[r][c] instanceof BuildingCell) {
+					marker.fill(0);
+					marker.textSize(12);
+					marker.textAlign(marker.CENTER, marker.CENTER);
+					marker.text(((BuildingCell)(grid[r][c])).getBuildingChar(), rectX+(rectWidth/2), rectY+(rectHeight/2));
+				}
+				
 				marker.popStyle();
 
 			}
