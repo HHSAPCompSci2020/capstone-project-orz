@@ -36,6 +36,9 @@ public class DrawingSurface extends PApplet {
     private int moveFriendCellPositionsTime;
     private final int updateFriendCellPositionsWait;
     
+    private int movePlayerPositionTime;
+    private final int updatePlayerCellPositionWait;
+    
     private double friendCellFreq;
     private final double increaseFriendCellFreqFactor;
 
@@ -55,10 +58,13 @@ public class DrawingSurface extends PApplet {
         entranceCol = 47;
         
         this.moveFriendCellPositionsTime = 0;
-        this.updateFriendCellPositionsWait = 100;
+        this.updateFriendCellPositionsWait = 120;
+        
+        this.movePlayerPositionTime = 0;
+        this.updatePlayerCellPositionWait = 120;
         
         this.friendCellFreq = 0.01;
-        this.increaseFriendCellFreqFactor = 0.0000005;
+        this.increaseFriendCellFreqFactor = 0.01;
         
     }
 
@@ -141,7 +147,8 @@ public class DrawingSurface extends PApplet {
         	
         	//Completed day
         	if(player.getCurrentPeriod() == 6) {
-        		
+        		this.friendCellFreq -= this.increaseFriendCellFreqFactor * 6;
+        		grid.generateFriendCells(this.friendCellFreq);
         		//Congratulates the player for beating the game if completed Friday schedule
         		if(player.getCurrentDayName().equals("Friday")) {
             		String[] options = new String[] {"Play Again", "Quit"};
@@ -335,16 +342,28 @@ public class DrawingSurface extends PApplet {
         //Player movement mechanic
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                grid.movePlayerUp();
+            	if (millis() - this.movePlayerPositionTime >= this.updatePlayerCellPositionWait) {
+                    this.movePlayerPositionTime = millis();
+                    grid.movePlayerUp();
+                }
                 break;
             case KeyEvent.VK_DOWN:
-                grid.movePlayerDown();
+            	if (millis() - this.movePlayerPositionTime >= this.updatePlayerCellPositionWait) {
+                    this.movePlayerPositionTime = millis();
+                    grid.movePlayerDown();
+                }
                 break;
             case KeyEvent.VK_LEFT:
-                grid.movePlayerLeft();
+            	if (millis() - this.movePlayerPositionTime >= this.updatePlayerCellPositionWait) {
+                    this.movePlayerPositionTime = millis();
+                    grid.movePlayerLeft();
+                }
                 break;
             case KeyEvent.VK_RIGHT:
-                grid.movePlayerRight();
+            	if (millis() - this.movePlayerPositionTime >= this.updatePlayerCellPositionWait) {
+                    this.movePlayerPositionTime = millis();
+                    grid.movePlayerRight();
+                }
                 break;
         }
         

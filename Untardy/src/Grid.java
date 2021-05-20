@@ -85,8 +85,7 @@ public class Grid {
 		}
 		setBuildingCellCharsToMatchEntranceCellChars();
 	}
-	
-	
+
 	/**
 	 * set BuildingCell buildingChar to match EntranceCell buildingChar
 	 */
@@ -94,18 +93,20 @@ public class Grid {
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
 				if (grid[r][c] instanceof EntranceCell) {
-					char entranceCh = ((EntranceCell)grid[r][c]).getBuildingChar();
+					char entranceCh = ((EntranceCell) grid[r][c]).getBuildingChar();
 					setAdjBuildingCellChars(entranceCh, r, c);
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * helper method for setBuildingCellCharsToMatchEntranceCellChars to dfs and set BuildingCell buildingChar to EntranceCell buildingChar
+	 * helper method for setBuildingCellCharsToMatchEntranceCellChars to dfs and set
+	 * BuildingCell buildingChar to EntranceCell buildingChar
+	 * 
 	 * @param entranceCh EntranceCell buildingChar
-	 * @param r row index in grid
-	 * @param c column index in grid
+	 * @param r          row index in grid
+	 * @param c          column index in grid
 	 */
 	private void setAdjBuildingCellChars(char entranceCh, int r, int c) {
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
@@ -113,29 +114,35 @@ public class Grid {
 			int nr = r + dir[0];
 			int nc = c + dir[1];
 			if (inBounds(grid, nr, nc) && grid[nr][nc] instanceof BuildingCell) {
-				char buildingCh = ((BuildingCell)grid[nr][nc]).getBuildingChar();
+				char buildingCh = ((BuildingCell) grid[nr][nc]).getBuildingChar();
 				if (buildingCh != entranceCh) {
-					((BuildingCell)grid[nr][nc]).setBuildingChar(entranceCh);
+					((BuildingCell) grid[nr][nc]).setBuildingChar(entranceCh);
 					setAdjBuildingCellChars(entranceCh, nr, nc);
 				}
 			}
 		}
-	} 
-	
+	}
+
 	/**
 	 * randomly turns PathCell into FriendCell based on frequency freq
-	 * @param freq a double which correlates with the chance 
-	 * of a PathCell turning into a FriendCell
-	 * ex. 0.25 means a PathCell has a 25% chance of turning into a FriendCell
+	 * 
+	 * @param freq a double which correlates with the chance of a PathCell turning
+	 *             into a FriendCell ex. 0.25 means a PathCell has a 25% chance of
+	 *             turning into a FriendCell
 	 */
 	public void generateFriendCells(double freq) {
+		for (int[] pos : this.friendCellPositions) {
+			int r = pos[0];
+			int c = pos[1];
+			grid[r][c] = new PathCell();
+		}
 		this.friendCellPositions.clear();
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
 				if (grid[r][c] instanceof PathCell) {
 					if (Math.random() <= freq) {
 						grid[r][c] = new FriendCell();
-						this.friendCellPositions.add(new int[] {r, c});
+						this.friendCellPositions.add(new int[] { r, c });
 					}
 				}
 			}
@@ -187,9 +194,10 @@ public class Grid {
 			}
 		}
 	}
-	
+
 	/**
 	 * check if player is blocked in all 4 cardinal directions
+	 * 
 	 * @return returns true if player is blocked
 	 */
 	public boolean playerIsBlocked() {
@@ -206,7 +214,7 @@ public class Grid {
 		}
 		return blockedDirCount == 4;
 	}
-	
+
 	/**
 	 * changes one random FriendCell that is adjacent to player to a PathCell
 	 */
@@ -263,18 +271,19 @@ public class Grid {
 				float rectY = y + r * rectHeight;
 
 				marker.pushStyle();
-				
+
 				int[] color = grid[r][c].getColor();
 				marker.fill(color[0], color[1], color[2]);
 				marker.rect(rectX, rectY, rectWidth, rectHeight);
-				
-				if(grid[r][c] instanceof BuildingCell) {
+
+				if (grid[r][c] instanceof BuildingCell) {
 					marker.fill(0);
-					marker.textSize(12);
+					marker.textSize(10);
 					marker.textAlign(marker.CENTER, marker.CENTER);
-					marker.text(((BuildingCell)(grid[r][c])).getBuildingChar(), rectX+(rectWidth/2), rectY+(rectHeight/2));
+					char buildingChar = ((BuildingCell) grid[r][c]).getBuildingChar();
+					marker.text(buildingChar, rectX + (rectWidth / 2), rectY + (rectHeight / 2));
 				}
-				
+
 				marker.popStyle();
 
 			}

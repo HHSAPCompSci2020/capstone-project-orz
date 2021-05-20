@@ -16,7 +16,7 @@ public class EntranceCell extends Cell {
 	public EntranceCell(char buildingChar) {
 		this.isTraversable = true;
 		this.buildingChar = buildingChar;
-		this.color = new int[] { 102, 51, 0 };
+		this.color = new int[] { 251, 201, 1 };
 	}
 
 	/**
