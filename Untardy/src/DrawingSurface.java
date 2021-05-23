@@ -83,6 +83,7 @@ public class DrawingSurface extends PApplet {
         time = millis();
         
         grid.generateFriendCells(friendCellFreq);
+        grid.displayShortestPath(19, 47, 'A');
     }
 
     /**
@@ -92,10 +93,6 @@ public class DrawingSurface extends PApplet {
 
         background(211, 211, 211);
         fill(0);
-        
-        String a = player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1];
-        char b = a.charAt(0);
-        grid.displayShortestPath(startingRow, startingCol, b);
         
         //CASES
         

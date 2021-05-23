@@ -298,8 +298,8 @@ public class Grid {
 	}
 
 	List<Cell> findShortestPath(Cell[][] grid, int[] startPos, char targetEntranceCellBuildingChar) {
-		int startR = startPos[0];
-		int startC = startPos[1];
+		final int startR = startPos[0];
+		final int startC = startPos[1];
 		final int rLen = grid.length;
 		final int cLen = grid[0].length;
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
@@ -307,7 +307,7 @@ public class Grid {
 		Queue<int[]> q = new LinkedList<>();
 		q.add(new int[] {startR, startC});
 		visited[startR][startC] = true;
-		int steps = 0;
+		int steps = 1;
 		while (!q.isEmpty()) {
 			boolean foundTargetEntranceCellBuildingChar = false;
 			for (int size = q.size(); size > 0; size--) {
@@ -340,7 +340,7 @@ public class Grid {
 		}
 		
 		List<Cell> res = new ArrayList<>();
-		dfs(grid, res, new boolean[rLen][cLen], startR, startC, steps, targetEntranceCellBuildingChar);
+		dfs(grid, res, new boolean[rLen][cLen], startR, startC, steps+1, targetEntranceCellBuildingChar);
 		return res;
 	}
 	
@@ -348,7 +348,7 @@ public class Grid {
 		res.add(grid[r][c]);
 		visited[r][c] = true;
 		if (res.size() == steps && res.get(res.size()-1) instanceof EntranceCell &&
-				((EntranceCell)grid[r][c]).getBuildingChar() == targetEntranceCellBuildingChar) {
+				((EntranceCell)res.get(res.size()-1)).getBuildingChar() == targetEntranceCellBuildingChar) {
 			return true;
 		} else if (res.size() >= steps) {
 			res.remove(res.size()-1);
