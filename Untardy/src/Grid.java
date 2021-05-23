@@ -319,13 +319,13 @@ public class Grid {
 					int nc = c + dir[1];
 					if (inBounds(grid, nr, nc) && !visited[nr][nc] &&
 							(grid[nr][nc] instanceof PlayerCell || grid[nr][nc] instanceof FriendCell ||
-							 grid[nr][nc] instanceof EntranceCell)) {
-						visited[nr][nc] = true;
+							 grid[nr][nc] instanceof PathCell || grid[nr][nc] instanceof EntranceCell)) {
 						if (grid[nr][nc] instanceof EntranceCell &&
 								((EntranceCell)grid[nr][nc]).getBuildingChar() == targetEntranceCellBuildingChar) {
 							foundTargetEntranceCellBuildingChar = true;
 							break;
 						}
+						visited[nr][nc] = true;
 						q.add(new int[] {nr, nc});
 					}
 				}
