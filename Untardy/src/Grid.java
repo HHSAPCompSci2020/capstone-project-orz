@@ -5,7 +5,9 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
 
@@ -84,6 +86,10 @@ public class Grid {
 			}
 		}
 		setBuildingCellCharsToMatchEntranceCellChars();
+	}
+	
+	public int[] getPlayerLocation() {
+		return new int[] {this.playerLocation[0], this.playerLocation[1]};
 	}
 
 	/**
@@ -291,73 +297,86 @@ public class Grid {
 		marker.fill(0);
 	}
 
-	/**
-	 * finds shortest path from Cell start to Cell end
-	 * 
-	 * @param grid  grid of Cell
-	 * @param start start Cell
-	 * @param end   end Cell
-	 * @return List of Cell that are in the shortest path
-	 */
-	List<Cell> findShortestPath(Cell[][] grid, Cell start, Cell end) {
-		int rLen = grid.length;
-		int cLen = grid[0].length;
-		int[] startCords = null;
-		for (int r = 0; r < rLen; r++) {
-			for (int c = 0; c < cLen; c++) {
-				if (grid[r][c] == start) {
-					startCords = new int[] { r, c };
+	List<Cell> findShortestPath(Cell[][] grid, int[] startPos, char targetEntranceCellBuildingChar) {
+		int startR = startPos[0];
+		int startC = startPos[1];
+		final int rLen = grid.length;
+		final int cLen = grid[0].length;
+		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+		boolean[][] visited = new boolean[rLen][cLen];
+		visited[startR][startC] = true;
+		Queue<int[]> q = new LinkedList<>();
+		q.add(new int[] {startR, startC});
+		int steps = 0;
+		while (!q.isEmpty()) {
+			boolean foundTargetEntranceCellBuildingChar = false;
+			for (int size = q.size(); size > 0; size--) {
+				int[] curr = q.poll();
+				int r = curr[0];
+				int c = curr[1];
+				for (int[] dir : directions) {
+					int nr = r + dir[0];
+					int nc = c + dir[1];
+					if (inBounds(grid, nr, nc) && !visited[nr][nc] &&
+							(grid[nr][nc] instanceof PlayerCell || grid[nr][nc] instanceof FriendCell ||
+							 grid[nr][nc] instanceof EntranceCell)) {
+						visited[nr][nc] = true;
+						if (grid[nr][nc] instanceof EntranceCell &&
+								((EntranceCell)grid[nr][nc]).getBuildingChar() == targetEntranceCellBuildingChar) {
+							foundTargetEntranceCellBuildingChar = true;
+							break;
+						}
+						q.add(new int[] {nr, nc});
+					}
+				}
+				if (foundTargetEntranceCellBuildingChar) {
 					break;
 				}
 			}
-			if (startCords != null) {
+			if (foundTargetEntranceCellBuildingChar) {
 				break;
 			}
+			steps++;
 		}
-		boolean[][] visited = new boolean[rLen][cLen];
-		Stack<Cell> shortestPath = new Stack<>();
-		Stack<Cell> currPath = new Stack<>();
-		dfs(grid, visited, shortestPath, currPath, startCords[0], startCords[1], end);
-		return new ArrayList<>(shortestPath);
+		
+		List<Cell> res = new ArrayList<>();
+		dfs(grid, res, new boolean[rLen][cLen], startR, startC, steps, targetEntranceCellBuildingChar);
+		return res;
 	}
-
-	/**
-	 * helper method to find shortest path for findShortestPath method
-	 * 
-	 * @param grid         grid of Cell
-	 * @param visited      boolean array to keep track of visited cells
-	 * @param shortestPath stores shortest path Cells
-	 * @param currPath     stores current path of Cells
-	 * @param r            current row index
-	 * @param c            current col index
-	 * @param target       target Cell
-	 */
-	private void dfs(Cell[][] grid, boolean[][] visited, Stack<Cell> shortestPath, Stack<Cell> currPath, int r, int c,
-			Cell target) {
-		if (!shortestPath.isEmpty() && shortestPath.size() <= currPath.size()) {
-			return;
-		}
+	
+	private void dfs(Cell[][] grid, List<Cell> res, boolean[][] visited, int r, int c, int steps, char targetEntranceCellBuildingChar) {
+		res.add(grid[r][c]);
 		visited[r][c] = true;
-		currPath.push(grid[r][c]);
-		if (grid[r][c] == target) {
-			if (shortestPath.isEmpty() || currPath.size() < shortestPath.size()) {
-				shortestPath.clear();
-				currPath.stream().forEach(cell -> shortestPath.push(cell));
-			}
+		if (res.size() > steps) {
+			res.remove(res.size()-1);
 			visited[r][c] = false;
-			currPath.pop();
 			return;
 		}
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 		for (int[] dir : directions) {
 			int nr = r + dir[0];
 			int nc = c + dir[1];
-			if (inBounds(grid, nr, nc) && !visited[nr][nc] && grid[nr][nc].isTraversable()) {
-				dfs(grid, visited, shortestPath, currPath, nr, nc, target);
+			if (inBounds(grid, nr, nc) && !visited[nr][nc] &&
+					(grid[nr][nc] instanceof PlayerCell ||
+					 grid[nr][nc] instanceof FriendCell || grid[nr][nc] instanceof PathCell)) {
+				dfs(grid, res, visited, nr, nc, steps, targetEntranceCellBuildingChar);
+				if (res.size() == steps && res.get(res.size()-1) instanceof EntranceCell &&
+						((EntranceCell)grid[nr][nc]).getBuildingChar() == targetEntranceCellBuildingChar) {
+					return;
+				}
 			}
 		}
+		res.remove(res.size()-1);
 		visited[r][c] = false;
-		currPath.pop();
+	}
+	
+	
+	void displayShortestPath(int startingRow, int startingCol, char targetEntranceCellBuildingChar) {
+		List<Cell> shortestPathCells = this.findShortestPath(this.grid, new int[] {startingRow, startingCol}, targetEntranceCellBuildingChar);
+		int[] pathColor = new int[] {0, 255, 0};
+		for (Cell cell : shortestPathCells) {
+			cell.setColor(pathColor[0], pathColor[1], pathColor[2]);
+		}
 	}
 
 	/**

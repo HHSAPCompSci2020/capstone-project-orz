@@ -9,7 +9,6 @@ public class Cell {
 
 	protected boolean isTraversable;
 	protected int[] color;
-
 	/**
 	 * creates new Cell
 	 */
@@ -32,5 +31,9 @@ public class Cell {
 	 */
 	public int[] getColor() {
 		return this.color;
+	}
+	
+	public void setColor(int r, int g, int b) {
+		this.color = new int[] {r, g, b};
 	}
 }
