@@ -360,8 +360,8 @@ public class Grid {
 			int nr = r + dir[0];
 			int nc = c + dir[1];
 			if (inBounds(grid, nr, nc) && !visited[nr][nc] &&
-					(grid[nr][nc] instanceof PlayerCell ||
-					 grid[nr][nc] instanceof FriendCell || grid[nr][nc] instanceof PathCell)) {
+					(grid[nr][nc] instanceof PlayerCell || grid[nr][nc] instanceof FriendCell ||
+							grid[nr][nc] instanceof PathCell || grid[nr][nc] instanceof EntranceCell)) {
 				dfs(grid, res, visited, nr, nc, steps, targetEntranceCellBuildingChar);
 				if (res.size() == steps) {
 					return;
