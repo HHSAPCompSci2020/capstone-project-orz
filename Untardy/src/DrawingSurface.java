@@ -142,13 +142,18 @@ public class DrawingSurface extends PApplet {
         	grid.generateFriendCells(this.friendCellFreq);
         	
         	// add timeLeftOver to dayScore
-        	int timeLeftOver = 60 - clock.getElapsedSec();
+        	System.out.println("Elapsed sec: " + clock.getElapsedSec());
+        	int timeLeftOver = 300 - clock.getElapsedSec();
+        	
+        	System.out.println("Time left over: " + timeLeftOver);
+        	System.out.println("Player current day score: " + player.getDayScore());
     		player.setDayScore(player.getDayScore() + timeLeftOver);
+    		System.out.println("Player updated day score: " + player.getDayScore());
         	
         	//Completed day
         	if(player.getCurrentPeriod() == 6) {
-        		this.friendCellFreq -= this.increaseFriendCellFreqFactor * 6;
-        		grid.generateFriendCells(this.friendCellFreq);
+        		this.friendCellFreq -= this.increaseFriendCellFreqFactor * 3;
+//        		grid.generateFriendCells(this.friendCellFreq);
         		//Congratulates the player for beating the game if completed Friday schedule
         		if(player.getCurrentDayName().equals("Friday")) {
             		String[] options = new String[] {"Play Again", "Quit"};
@@ -168,10 +173,6 @@ public class DrawingSurface extends PApplet {
             	else {
             		JOptionPane.showMessageDialog(frame, "You completed the day! You earned " + player.getDayScore() + " points, and will now progress to the next day.");
         			player.nextDay();
-        			
-            		// add dayScore to score and reset dayScore
-            		player.setScore(player.getScore() + player.getDayScore());
-            		player.setDayScore(0);
             	}
         		
         		grid.setPlayerLoc(entranceRow, entranceCol);
@@ -303,7 +304,7 @@ public class DrawingSurface extends PApplet {
 		//Displays player's current stats
 		text("Current Day: " + player.getCurrentDayName(), height + 20, height * 3 / 4);
         text("Total Tardies: " + player.getTardies(), height + 20, (height * 3 / 4) + 26);
-        text("Score: " + player.getScore(), height + 20, (height * 3 / 4) + (26 * 2));
+        text("Score: " + (player.getDayScore()+player.getScore()), height + 20, (height * 3 / 4) + (26 * 2));
         
         popStyle();
 
@@ -370,6 +371,11 @@ public class DrawingSurface extends PApplet {
         //Uncovers the grid
         if(cover && keyCode == ' ') {
         	cover = false;
+        }
+        
+        if(!cover && keyCode == ENTER) {
+        	finish = true;
+        	
         }
     }
     

@@ -221,6 +221,7 @@ public class Player {
 	public void nextDay() {
 		setCurrentPeriod(1);
 		currentDay++;
+		score = dayScore;
 		dayScore = 0;
 	}
 	
@@ -229,7 +230,6 @@ public class Player {
 	 */
 	public void nextPeriod() {
 		currentPeriod++;
-		score += dayScore;
 	}
 	
 }
