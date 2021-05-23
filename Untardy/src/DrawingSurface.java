@@ -1,9 +1,11 @@
 
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import cells.Cell;
 import processing.core.PApplet;
 import processing.core.PFont;
 
@@ -28,6 +30,9 @@ public class DrawingSurface extends PApplet {
     private boolean cover;
 
     private Player player;
+    private int playerMoves;
+    private int startingRow;
+    private int startingCol;
     private Clock clock;
     
     private int entranceRow;
@@ -52,6 +57,7 @@ public class DrawingSurface extends PApplet {
         finish = false;
         cover = true;
         player = new Player();
+        playerMoves = 0;
         clock = new Clock(8, 45, "AM");
         
         entranceRow = 19;
@@ -86,6 +92,10 @@ public class DrawingSurface extends PApplet {
 
         background(211, 211, 211);
         fill(0);
+        
+        String a = player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1];
+        char b = a.charAt(0);
+        grid.displayShortestPath(startingRow, startingCol, b);
         
         //CASES
         
@@ -138,22 +148,21 @@ public class DrawingSurface extends PApplet {
 
         //Win condition
         if (finish) {
+        	//Update friend cell frequencies and spawn more
         	this.friendCellFreq += this.increaseFriendCellFreqFactor;
         	grid.generateFriendCells(this.friendCellFreq);
         	
-        	// add timeLeftOver to dayScore
-        	System.out.println("Elapsed sec: " + clock.getElapsedSec());
+        	//Draw shortest path and calculate bonus points
+        	
+        	
+        	
+        	//Update player score
         	int timeLeftOver = 300 - clock.getElapsedSec();
-        	
-        	System.out.println("Time left over: " + timeLeftOver);
-        	System.out.println("Player current day score: " + player.getDayScore());
     		player.setDayScore(player.getDayScore() + timeLeftOver);
-    		System.out.println("Player updated day score: " + player.getDayScore());
-        	
+    		
         	//Completed day
         	if(player.getCurrentPeriod() == 6) {
         		this.friendCellFreq -= this.increaseFriendCellFreqFactor * 3;
-//        		grid.generateFriendCells(this.friendCellFreq);
         		//Congratulates the player for beating the game if completed Friday schedule
         		if(player.getCurrentDayName().equals("Friday")) {
             		String[] options = new String[] {"Play Again", "Quit"};
@@ -346,24 +355,28 @@ public class DrawingSurface extends PApplet {
             	if (millis() - this.movePlayerPositionTime >= this.updatePlayerCellPositionWait) {
                     this.movePlayerPositionTime = millis();
                     grid.movePlayerUp();
+                    playerMoves++;
                 }
                 break;
             case KeyEvent.VK_DOWN:
             	if (millis() - this.movePlayerPositionTime >= this.updatePlayerCellPositionWait) {
                     this.movePlayerPositionTime = millis();
                     grid.movePlayerDown();
+                    playerMoves++;
                 }
                 break;
             case KeyEvent.VK_LEFT:
             	if (millis() - this.movePlayerPositionTime >= this.updatePlayerCellPositionWait) {
                     this.movePlayerPositionTime = millis();
                     grid.movePlayerLeft();
+                    playerMoves++;
                 }
                 break;
             case KeyEvent.VK_RIGHT:
             	if (millis() - this.movePlayerPositionTime >= this.updatePlayerCellPositionWait) {
                     this.movePlayerPositionTime = millis();
                     grid.movePlayerRight();
+                    playerMoves++;
                 }
                 break;
         }
@@ -371,6 +384,8 @@ public class DrawingSurface extends PApplet {
         //Uncovers the grid
         if(cover && keyCode == ' ') {
         	cover = false;
+        	startingRow = grid.getPlayerLocation()[0];
+        	startingCol = grid.getPlayerLocation()[1];
         }
         
         if(!cover && keyCode == ENTER) {
