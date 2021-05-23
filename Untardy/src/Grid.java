@@ -22,6 +22,7 @@ import processing.core.PApplet;
 public class Grid {
 
 	private Cell[][] grid;
+	private int[] prevPlayerLocation;
 	private int[] playerLocation;
 	private Cell cellUnderPlayer;
 	private List<int[]> friendCellPositions;
@@ -47,6 +48,7 @@ public class Grid {
 				break;
 			}
 		}
+		this.prevPlayerLocation = new int[] {playerLocation[0], playerLocation[1]};
 		setBuildingCellCharsToMatchEntranceCellChars();
 	}
 
@@ -85,7 +87,12 @@ public class Grid {
 				break;
 			}
 		}
+		this.prevPlayerLocation = new int[] {playerLocation[0], playerLocation[1]};
 		setBuildingCellCharsToMatchEntranceCellChars();
+	}
+	
+	public boolean playerHasMoved() {
+		return Arrays.equals(this.prevPlayerLocation, this.playerLocation);
 	}
 	
 	public int[] getPlayerLocation() {
@@ -383,6 +390,8 @@ public class Grid {
 	 * @param c col index
 	 */
 	public void setPlayerLoc(int r, int c) {
+		this.prevPlayerLocation[0] = this.playerLocation[0];
+		this.prevPlayerLocation[1] = this.playerLocation[1];
 		if (inBounds(grid, r, c) && grid[r][c].isTraversable() && !(grid[r][c] instanceof FriendCell)) {
 			int pr = playerLocation[0];
 			int pc = playerLocation[1];
