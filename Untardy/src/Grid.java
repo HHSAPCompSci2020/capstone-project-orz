@@ -92,7 +92,7 @@ public class Grid {
 	}
 	
 	public boolean playerHasMoved() {
-		return Arrays.equals(this.prevPlayerLocation, this.playerLocation);
+		return !Arrays.equals(this.prevPlayerLocation, this.playerLocation);
 	}
 	
 	public int[] getPlayerLocation() {
