@@ -296,8 +296,26 @@ public class Grid {
 		}
 		marker.fill(0);
 	}
+	
+	/**
+	 * getter method for findShortestPath
+	 * @param startingRow starting row position in grid
+	 * @param startingCol starting col position in grid
+	 * @param targetEntranceCellBuildingChar target entrance cell building char
+	 * @return returns shortest path move count
+	 */
+	int getShortestPath(int startingRow, int startingCol, char targetEntranceCellBuildingChar) {
+		return this.findShortestPath(this.grid, new int[] {startingRow, startingCol}, targetEntranceCellBuildingChar);
+	}
 
-	List<Cell> findShortestPath(Cell[][] grid, int[] startPos, char targetEntranceCellBuildingChar) {
+	/**
+	 * finds shortest path via BFS
+	 * @param grid Cell grid
+	 * @param startPos starting position
+	 * @param targetEntranceCellBuildingChar target entrance building char
+	 * @return returns shortest path move count
+	 */
+	private int findShortestPath(Cell[][] grid, int[] startPos, char targetEntranceCellBuildingChar) {
 		final int startR = startPos[0];
 		final int startC = startPos[1];
 		final int rLen = grid.length;
@@ -338,47 +356,7 @@ public class Grid {
 			}
 			steps++;
 		}
-		
-		List<Cell> res = new ArrayList<>();
-		dfs(grid, res, new boolean[rLen][cLen], startR, startC, steps+1, targetEntranceCellBuildingChar);
-		return res;
-	}
-	
-	private boolean dfs(Cell[][] grid, List<Cell> res, boolean[][] visited, int r, int c, int steps, char targetEntranceCellBuildingChar) {
-		res.add(grid[r][c]);
-		visited[r][c] = true;
-		if (res.size() == steps && res.get(res.size()-1) instanceof EntranceCell &&
-				((EntranceCell)res.get(res.size()-1)).getBuildingChar() == targetEntranceCellBuildingChar) {
-			return true;
-		} else if (res.size() >= steps) {
-			res.remove(res.size()-1);
-			visited[r][c] = false;
-			return false;
-		}
-		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
-		for (int[] dir : directions) {
-			int nr = r + dir[0];
-			int nc = c + dir[1];
-			if (inBounds(grid, nr, nc) && !visited[nr][nc] &&
-					(grid[nr][nc] instanceof PlayerCell || grid[nr][nc] instanceof FriendCell ||
-							grid[nr][nc] instanceof PathCell || grid[nr][nc] instanceof EntranceCell)) {
-				if (dfs(grid, res, visited, nr, nc, steps, targetEntranceCellBuildingChar)) {
-					return true;
-				}
-			}
-		}
-		res.remove(res.size()-1);
-		visited[r][c] = false;
-		return false;
-	}
-	
-	
-	void displayShortestPath(int startingRow, int startingCol, char targetEntranceCellBuildingChar) {
-		List<Cell> shortestPathCells = this.findShortestPath(this.grid, new int[] {startingRow, startingCol}, targetEntranceCellBuildingChar);
-		int[] pathColor = new int[] {0, 255, 0};
-		for (Cell cell : shortestPathCells) {
-			cell.setColor(pathColor[0], pathColor[1], pathColor[2]);
-		}
+		return steps;
 	}
 
 	/**
