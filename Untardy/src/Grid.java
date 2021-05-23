@@ -304,9 +304,9 @@ public class Grid {
 		final int cLen = grid[0].length;
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 		boolean[][] visited = new boolean[rLen][cLen];
-		visited[startR][startC] = true;
 		Queue<int[]> q = new LinkedList<>();
 		q.add(new int[] {startR, startC});
+		visited[startR][startC] = true;
 		int steps = 0;
 		while (!q.isEmpty()) {
 			boolean foundTargetEntranceCellBuildingChar = false;
@@ -344,16 +344,16 @@ public class Grid {
 		return res;
 	}
 	
-	private void dfs(Cell[][] grid, List<Cell> res, boolean[][] visited, int r, int c, int steps, char targetEntranceCellBuildingChar) {
+	private boolean dfs(Cell[][] grid, List<Cell> res, boolean[][] visited, int r, int c, int steps, char targetEntranceCellBuildingChar) {
 		res.add(grid[r][c]);
 		visited[r][c] = true;
 		if (res.size() == steps && res.get(res.size()-1) instanceof EntranceCell &&
 				((EntranceCell)grid[r][c]).getBuildingChar() == targetEntranceCellBuildingChar) {
-			return;
+			return true;
 		} else if (res.size() >= steps) {
 			res.remove(res.size()-1);
 			visited[r][c] = false;
-			return;
+			return false;
 		}
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 		for (int[] dir : directions) {
@@ -362,14 +362,14 @@ public class Grid {
 			if (inBounds(grid, nr, nc) && !visited[nr][nc] &&
 					(grid[nr][nc] instanceof PlayerCell || grid[nr][nc] instanceof FriendCell ||
 							grid[nr][nc] instanceof PathCell || grid[nr][nc] instanceof EntranceCell)) {
-				dfs(grid, res, visited, nr, nc, steps, targetEntranceCellBuildingChar);
-				if (res.size() == steps) {
-					return;
+				if (dfs(grid, res, visited, nr, nc, steps, targetEntranceCellBuildingChar)) {
+					return true;
 				}
 			}
 		}
 		res.remove(res.size()-1);
 		visited[r][c] = false;
+		return false;
 	}
 	
 	
