@@ -347,7 +347,10 @@ public class Grid {
 	private void dfs(Cell[][] grid, List<Cell> res, boolean[][] visited, int r, int c, int steps, char targetEntranceCellBuildingChar) {
 		res.add(grid[r][c]);
 		visited[r][c] = true;
-		if (res.size() > steps) {
+		if (res.size() == steps && res.get(res.size()-1) instanceof EntranceCell &&
+				((EntranceCell)grid[r][c]).getBuildingChar() == targetEntranceCellBuildingChar) {
+			return;
+		} else if (res.size() >= steps) {
 			res.remove(res.size()-1);
 			visited[r][c] = false;
 			return;
@@ -360,8 +363,7 @@ public class Grid {
 					(grid[nr][nc] instanceof PlayerCell ||
 					 grid[nr][nc] instanceof FriendCell || grid[nr][nc] instanceof PathCell)) {
 				dfs(grid, res, visited, nr, nc, steps, targetEntranceCellBuildingChar);
-				if (res.size() == steps && res.get(res.size()-1) instanceof EntranceCell &&
-						((EntranceCell)grid[nr][nc]).getBuildingChar() == targetEntranceCellBuildingChar) {
+				if (res.size() == steps) {
 					return;
 				}
 			}
