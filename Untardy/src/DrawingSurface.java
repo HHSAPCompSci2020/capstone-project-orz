@@ -58,7 +58,7 @@ public class DrawingSurface extends PApplet {
         cover = true;
         player = new Player();
         playerMoves = 0;
-        clock = new Clock(8, 45, "AM");
+        clock = new Clock(7, 55, "AM");
         
         entranceRow = 19;
         entranceCol = 47;
@@ -70,7 +70,7 @@ public class DrawingSurface extends PApplet {
         this.updatePlayerCellPositionWait = 120;
         
         this.friendCellFreq = 0.01;
-        this.increaseFriendCellFreqFactor = 0.01;
+        this.increaseFriendCellFreqFactor = 0.005;
         
     }
 
@@ -92,6 +92,8 @@ public class DrawingSurface extends PApplet {
 
         background(211, 211, 211);
         fill(0);
+        
+        System.out.println(friendCellFreq);
         
         //CASES
         
@@ -127,8 +129,8 @@ public class DrawingSurface extends PApplet {
         	//Restarts the day if the player has less than 3 tardies
         	else {
         		JOptionPane.showMessageDialog(frame, "You were tardy to class! You've received a tardy, and will restart the day.");
-    			player.restartDay();
-    			friendCellFreq -= (0.0000005 * (player.getCurrentPeriod()-1));
+        		friendCellFreq -= (increaseFriendCellFreqFactor * (player.getCurrentPeriod()-1));
+        		player.restartDay();
         	}
         	
         	if (player.getCurrentPeriod() == 1) {
@@ -136,7 +138,7 @@ public class DrawingSurface extends PApplet {
         		 grid.setPlayerLoc(entranceRow, entranceCol);
         	}
         	playerMoves = 0;
-        	clock.setTime(8, 45, 0, "AM");
+        	clock.setTime(7, 55, 0, "AM");
         	clock.setElapsedSec(0);
         	cover = true;
         	tardy = false;
@@ -163,8 +165,6 @@ public class DrawingSurface extends PApplet {
         		shortestPathPoints = 50;
         	}
         	
-        	System.out.println(Math.abs(shortestPath - playerMoves));
-        	
         	//Update player score
         	int timeLeftOver = 300 - clock.getElapsedSec();
     		player.setDayScore(player.getDayScore() + timeLeftOver + shortestPathPoints);
@@ -180,6 +180,7 @@ public class DrawingSurface extends PApplet {
             		
             		if(choice == 0) {
             			player.restartGame(1);
+            			friendCellFreq = 0.01;
             			tardy = false;
             		}
             		else {
@@ -189,12 +190,12 @@ public class DrawingSurface extends PApplet {
         		
         		//Congratulates the player for beating the current day's schedule 
             	else {
-            		JOptionPane.showMessageDialog(frame, "You completed the day! You earned " + player.getDayScore() + " points, and will now progress to the next day.");
+            		JOptionPane.showMessageDialog(frame, "You completed the day! You now have a total of " + (player.getDayScore() + player.getScore()) + " points, and will now progress to the next day.");
         			player.nextDay();
             	}
         		
         		grid.setPlayerLoc(entranceRow, entranceCol);
-        		clock.setTime(8, 45, 0, "AM");
+        		clock.setTime(7, 55, 0, "AM");
         	}
         	
         	//Completed period
@@ -204,11 +205,11 @@ public class DrawingSurface extends PApplet {
         				player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1].indexOf(':') + 2);
         		if(player.getCurrentPeriod() == 1) {
         			JOptionPane.showMessageDialog(frame, "Points for Time Left Over: " + timeLeftOver + "\n" + "Points for Shortest Path: " + shortestPathPoints + "\n" + "Total Points Earned: " + (timeLeftOver + shortestPathPoints) + "\n\n" + "You made it on time! " + className + " was over in an instant, don't be late to your next class!");
-        			clock.setTime(7, 55, 0, "AM");
+        			clock.setTime(8, 45, 0, "AM");
         		}
         		else if(player.getCurrentPeriod() == 2) {
         			JOptionPane.showMessageDialog(frame, "Points for Time Left Over: " + timeLeftOver + "\n" + "Points for Shortest Path: " + shortestPathPoints + "\n" + "Total Points Earned: " + (timeLeftOver + shortestPathPoints) + "\n\n" + "You made it on time! " + className + " and tutorial were over in an instant, don't be late to your next class!");
-        			clock.setTime(8, 45, 0, "AM");
+        			clock.setTime(10, 20, 0, "AM");
         		}
         		else if(player.getCurrentPeriod() == 3) {
         			JOptionPane.showMessageDialog(frame, "Points for Time Left Over: " + timeLeftOver + "\n" + "Points for Shortest Path: " + shortestPathPoints + "\n" + "Total Points Earned: " + (timeLeftOver + shortestPathPoints) + "\n\n" + "You made it on time! " + className + " and brunch were over in an instant, don't be late to your next class!");
@@ -224,6 +225,7 @@ public class DrawingSurface extends PApplet {
         		}
         		player.nextPeriod();
         	}
+        	
         	playerMoves = 0;
         	clock.setElapsedSec(0);
         	cover = true;
@@ -332,7 +334,7 @@ public class DrawingSurface extends PApplet {
         //CHECK CASES
         
         //Check if player is tardy
-        if(clock.getElapsedSec() == 300) {
+        if(clock.getElapsedSec() == 30) {
         	clock.setElapsedSec(0);
         	tardy = true;
         }
@@ -370,7 +372,6 @@ public class DrawingSurface extends PApplet {
                     if(grid.playerHasMoved()) {
                     	playerMoves++;
                     }
-                    System.out.println(playerMoves);
                 }
                 break;
             case KeyEvent.VK_DOWN:
@@ -380,7 +381,6 @@ public class DrawingSurface extends PApplet {
                     if(grid.playerHasMoved()) {
                     	playerMoves++;
                     }
-                    System.out.println(playerMoves);
                 }
                 break;
             case KeyEvent.VK_LEFT:
@@ -390,7 +390,6 @@ public class DrawingSurface extends PApplet {
                     if(grid.playerHasMoved()) {
                     	playerMoves++;
                     }
-                    System.out.println(playerMoves);
                 }
                 break;
             case KeyEvent.VK_RIGHT:
@@ -400,7 +399,6 @@ public class DrawingSurface extends PApplet {
                     if(grid.playerHasMoved()) {
                     	playerMoves++;
                     }
-                    System.out.println(playerMoves);
                 }
                 break;
         }
@@ -410,6 +408,10 @@ public class DrawingSurface extends PApplet {
         	cover = false;
         	startingRow = grid.getPlayerLocation()[0];
         	startingCol = grid.getPlayerLocation()[1];
+        }
+        
+        if(!cover && keyCode == ENTER) {
+        	finish = true;
         }
         
     }
