@@ -31,8 +31,6 @@ public class DrawingSurface extends PApplet {
 
     private Player player;
     private int playerMoves;
-    private int startingRow;
-    private int startingCol;
     private Clock clock;
     
     private int entranceRow;
@@ -74,7 +72,6 @@ public class DrawingSurface extends PApplet {
         
         this.friendCellFreq = 0.01;
         this.increaseFriendCellFreqFactor = 0.005;
-        
         
         int[] playerLoc = grid.getPlayerLocation();
         this.startingPlayerRowBeforePeriod = playerLoc[0];
@@ -125,7 +122,7 @@ public class DrawingSurface extends PApplet {
         		
         		if(choice == 0) {
         			player.restartGame(0);
-        			friendCellFreq = 0.01; 
+        			friendCellFreq = 0.01;
         		}
         		else {
         			exit();
@@ -159,12 +156,9 @@ public class DrawingSurface extends PApplet {
         	//Draw shortest path and calculate bonus points
         	String targetClass = player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1];
             char targetClassBuilding = targetClass.charAt(0);
+            
         	int shortestPath = grid.displayShortestPath(this.startingPlayerRowBeforePeriod, 
         							this.startingPlayerColBeforePeriod, targetClassBuilding).size();
-        	
-        	int[] playerLoc = grid.getPlayerLocation();
-        	this.startingPlayerRowBeforePeriod = playerLoc[0];
-        	this.startingPlayerColBeforePeriod = playerLoc[1];
         	
         	int shortestPathPoints = 0;
         	if(Math.abs(shortestPath - playerMoves) <= 5) {
@@ -213,6 +207,7 @@ public class DrawingSurface extends PApplet {
         	//Completed period
         	else {
         		//Congratulates the player for beating the current period, configures settings for next period
+        		
         		String className = player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1].substring(
         				player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1].indexOf(':') + 2);
         		if(player.getCurrentPeriod() == 1) {
@@ -238,7 +233,6 @@ public class DrawingSurface extends PApplet {
         		player.nextPeriod();
         	}
         	
-//        	grid.removeDisplayShortestPath();
         	playerMoves = 0;
         	clock.setElapsedSec(0);
         	cover = true;
@@ -346,7 +340,7 @@ public class DrawingSurface extends PApplet {
         //CHECK CASES
         
         //Check if player is tardy
-        if(clock.getElapsedSec() == 30) {
+        if(clock.getElapsedSec() == 300) {
         	clock.setElapsedSec(0);
         	tardy = true;
         }
@@ -416,12 +410,9 @@ public class DrawingSurface extends PApplet {
         //Uncovers the grid
         if(cover && keyCode == ' ') {
         	cover = false;
-        	startingRow = grid.getPlayerLocation()[0];
-        	startingCol = grid.getPlayerLocation()[1];
-        }
-        
-        if(!cover && keyCode == ENTER) {
-        	finish = true;
+        	int[] playerLoc = grid.getPlayerLocation();
+        	this.startingPlayerRowBeforePeriod = playerLoc[0];
+        	this.startingPlayerColBeforePeriod = playerLoc[1];
         }
         
     }

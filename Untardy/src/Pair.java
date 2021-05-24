@@ -12,7 +12,7 @@ public class Pair<T1, T2> {
 	/**
 	 * creates new Pair
 	 * @param T1 object 1
-	 * @param T2object 2
+	 * @param T2 object 2
 	 */
 	public Pair(Object T1, Object T2) {
 		this.T1= T1;

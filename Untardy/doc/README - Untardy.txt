@@ -3,7 +3,7 @@
 
 Untardy
 Authors: Jerry Wu, Justin Chiang
-Revision: 5/5/2021
+Revision: 5/23/2021
 
 
 Introduction: 
@@ -69,10 +69,11 @@ Class List:
    * VegetationCell: represents a cell that is vegetation (does nothing)
 * CellFactory: helps to fill a Grid object with Cell objects depending on characters present in the read-in text file
 * Player: represents the player’s data throughout the game (schedule, score, lives, etc)
+* Pair: helper class to encapsulate two different objects into one object reference
 
 
 Credits:
-* Jerry: responsible for Grid, Cell, CellFactory, PlayerCell, BuildingCell, EntranceCell, PathCell, VegetationCell (stretch features: FriendCell, CongestionCell)
+* Jerry: responsible for Grid, Cell, CellFactory, PlayerCell, BuildingCell, EntranceCell, PathCell, VegetationCell, Pair
    * Primarily responsible for grid/cell mechanics, such as player movement, different kinds of cells, etc
 * Justin: responsible for Main, DrawingSurface, Clock, Player
    * Primarily responsible for game logic and display, such as checking cases for player tardy, win condition, and displaying the grid with clock, schedule, etc
