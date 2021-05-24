@@ -290,11 +290,11 @@ public class Grid {
 				marker.rect(rectX, rectY, rectWidth, rectHeight);
 
 				if (grid[r][c] instanceof BuildingCell) {
-					marker.fill(0);
-					marker.textSize(10);
-					marker.textAlign(marker.CENTER, marker.CENTER);
-					char buildingChar = ((BuildingCell) grid[r][c]).getBuildingChar();
-					marker.text(buildingChar, rectX + (rectWidth / 2), rectY + (rectHeight / 2));
+						marker.fill(0);
+						marker.textSize(10);
+						marker.textAlign(marker.CENTER, marker.CENTER);
+						char buildingChar = ((BuildingCell) grid[r][c]).getBuildingChar();
+						marker.text(buildingChar == 0 ? ' ' : buildingChar, rectX + (rectWidth / 2), rectY + (rectHeight / 2));
 				}
 
 				marker.popStyle();

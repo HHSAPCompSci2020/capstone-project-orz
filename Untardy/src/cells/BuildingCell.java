@@ -36,7 +36,7 @@ public class BuildingCell extends Cell {
 	
 	/**
 	 * sets buildingChar to newBuildingChar
-	 * @param newBuildingChar
+	 * @param newBuildingChar the char to set the building character field to
 	 */
 	public void setBuildingChar(char newBuildingChar) {
 		this.buildingChar = newBuildingChar;
