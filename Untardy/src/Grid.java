@@ -356,10 +356,10 @@ public class Grid {
 	
 	public List<Cell> displayShortestPath(int row, int col, char targetEntranceCellBuildingChar) {
 		List<Cell> cellList = this.findShortestPath(grid, new int[] {row, col}, targetEntranceCellBuildingChar);
-		for (int i = 1; i < cellList.size(); i++) {
-			Cell cell = cellList.get(i);
-			cell.setColor(0, 255, 0);
-		}
+//		for (int i = 1; i < cellList.size(); i++) {
+//			Cell cell = cellList.get(i);
+//			cell.setColor(0, 255, 0);
+//		}
 		return cellList;
 	}
 	
