@@ -9,12 +9,14 @@ public class Cell {
 
 	protected boolean isTraversable;
 	protected int[] color;
+	protected int[] originalColor;
 	/**
 	 * creates new Cell
 	 */
 	public Cell() {
 		this.isTraversable = true;
-		this.color = new int[] { 255, 255, 255 };
+		this.originalColor = new int[] { 255, 255, 255 };
+		this.color = originalColor.clone();
 	}
 
 	/**
@@ -35,5 +37,9 @@ public class Cell {
 	
 	public void setColor(int r, int g, int b) {
 		this.color = new int[] {r, g, b};
+	}
+	
+	public void revertColorToOriginalColor() {
+		this.color = originalColor.clone();
 	}
 }

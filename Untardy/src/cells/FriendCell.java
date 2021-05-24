@@ -12,7 +12,8 @@ public class FriendCell extends Cell {
 	 */
 	public FriendCell() {
 		this.isTraversable = false;
-		this.color = new int[] { 255, 192, 203 };
+		this.originalColor = new int[] { 255, 192, 203 };
+		this.color = this.originalColor.clone();
 	}
 
 	/**

@@ -12,7 +12,8 @@ public class PathCell extends Cell {
 	 */
 	public PathCell() {
 		this.isTraversable = true;
-		this.color = new int[] { 242, 242, 242 };
+		this.originalColor = new int[] { 242, 242, 242 };
+		this.color = this.originalColor.clone();
 	}
 
 	/**

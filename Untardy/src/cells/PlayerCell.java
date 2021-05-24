@@ -12,7 +12,8 @@ public class PlayerCell extends Cell {
 	 */
 	public PlayerCell() {
 		this.isTraversable = false;
-		this.color = new int[] { 255, 0, 0 };
+		this.originalColor = new int[] { 255, 0, 0 };
+		this.color = this.originalColor.clone();
 	}
 
 	/**

@@ -303,17 +303,6 @@ public class Grid {
 		}
 		marker.fill(0);
 	}
-	
-	/**
-	 * getter method for findShortestPath
-	 * @param startingRow starting row position in grid
-	 * @param startingCol starting col position in grid
-	 * @param targetEntranceCellBuildingChar target entrance cell building char
-	 * @return returns shortest path move count
-	 */
-	int getShortestPath(int startingRow, int startingCol, char targetEntranceCellBuildingChar) {
-		return this.findShortestPath(this.grid, new int[] {startingRow, startingCol}, targetEntranceCellBuildingChar);
-	}
 
 	/**
 	 * finds shortest path via BFS
@@ -322,48 +311,64 @@ public class Grid {
 	 * @param targetEntranceCellBuildingChar target entrance building char
 	 * @return returns shortest path move count
 	 */
-	private int findShortestPath(Cell[][] grid, int[] startPos, char targetEntranceCellBuildingChar) {
+	private List<Cell> findShortestPath(Cell[][] grid, int[] startPos, char targetEntranceCellBuildingChar) {
 		final int startR = startPos[0];
 		final int startC = startPos[1];
 		final int rLen = grid.length;
 		final int cLen = grid[0].length;
 		final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 		boolean[][] visited = new boolean[rLen][cLen];
-		Queue<int[]> q = new LinkedList<>();
-		q.add(new int[] {startR, startC});
+		Queue<Pair<int[], List<Cell>>> q = new LinkedList<>();
+		q.add(new Pair(new int[] {startR, startC}, new ArrayList<>(Arrays.asList(grid[startR][startC]))));
 		visited[startR][startC] = true;
-		int steps = 1;
 		while (!q.isEmpty()) {
-			boolean foundTargetEntranceCellBuildingChar = false;
-			for (int size = q.size(); size > 0; size--) {
-				int[] curr = q.poll();
-				int r = curr[0];
-				int c = curr[1];
-				for (int[] dir : directions) {
-					int nr = r + dir[0];
-					int nc = c + dir[1];
-					if (inBounds(grid, nr, nc) && !visited[nr][nc] &&
-							(grid[nr][nc] instanceof PlayerCell || grid[nr][nc] instanceof FriendCell ||
-							 grid[nr][nc] instanceof PathCell || grid[nr][nc] instanceof EntranceCell)) {
-						if (grid[nr][nc] instanceof EntranceCell &&
-								((EntranceCell)grid[nr][nc]).getBuildingChar() == targetEntranceCellBuildingChar) {
-							foundTargetEntranceCellBuildingChar = true;
-							break;
-						}
-						visited[nr][nc] = true;
-						q.add(new int[] {nr, nc});
+			Pair<int[], List<Cell>> curr = q.poll();
+			int[] pos = (int[]) curr.getKey();
+			List<Cell> currList = (List<Cell>) curr.getValue();
+			int r = pos[0];
+			int c = pos[1];
+			for (int[] dir : directions) {
+				int nr = r + dir[0];
+				int nc = c + dir[1];
+				if (inBounds(grid, nr, nc) && !visited[nr][nc] &&
+						(grid[nr][nc] instanceof PlayerCell || grid[nr][nc] instanceof FriendCell ||
+						 grid[nr][nc] instanceof PathCell || grid[nr][nc] instanceof EntranceCell)) {
+					boolean foundTargetEntranceCellBuildingChar = false;
+					if (grid[nr][nc] instanceof EntranceCell &&
+							((EntranceCell)grid[nr][nc]).getBuildingChar() == targetEntranceCellBuildingChar) {
+						foundTargetEntranceCellBuildingChar = true;
 					}
-				}
-				if (foundTargetEntranceCellBuildingChar) {
-					break;
+					List<Cell> nextList = new ArrayList<>();
+					for (Cell cell : currList) {
+						nextList.add(cell);
+					}
+					nextList.add(grid[nr][nc]);
+					if (foundTargetEntranceCellBuildingChar) {
+						return nextList;
+					}
+					visited[nr][nc] = true;
+					q.add(new Pair(new int[] {nr, nc}, nextList));
 				}
 			}
-			if (foundTargetEntranceCellBuildingChar) {
-				break;
-			}
-			steps++;
 		}
-		return steps;
+		return new ArrayList<>();
+	}
+	
+	public List<Cell> displayShortestPath(int row, int col, char targetEntranceCellBuildingChar) {
+		List<Cell> cellList = this.findShortestPath(grid, new int[] {row, col}, targetEntranceCellBuildingChar);
+		for (int i = 1; i < cellList.size(); i++) {
+			Cell cell = cellList.get(i);
+			cell.setColor(0, 255, 0);
+		}
+		return cellList;
+	}
+	
+	public void removeDisplayShortestPath() {
+		for (Cell[] row : this.grid) {
+			for (Cell cell : row) {
+				cell.revertColorToOriginalColor();
+			}
+		}
 	}
 
 	/**

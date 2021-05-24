@@ -13,7 +13,8 @@ public class BuildingCell extends Cell {
 	public BuildingCell() {
 		this.buildingChar = 0;
 		this.isTraversable = false;
-		this.color = new int[] { 179, 179, 179 };
+		this.originalColor = new int[] { 179, 179, 179 };
+		this.color = originalColor.clone();
 	}
 	
 	/**

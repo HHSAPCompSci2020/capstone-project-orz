@@ -12,7 +12,8 @@ public class VegetationCell extends Cell {
 	 */
 	public VegetationCell() {
 		this.isTraversable = false;
-		this.color = new int[] { 51, 153, 51 };
+		this.originalColor = new int[] { 51, 153, 51 };
+		this.color = this.originalColor.clone();
 	}
 
 	/**

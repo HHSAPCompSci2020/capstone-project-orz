@@ -46,6 +46,9 @@ public class DrawingSurface extends PApplet {
     
     private double friendCellFreq;
     private final double increaseFriendCellFreqFactor;
+    
+    private int startingPlayerRowBeforePeriod;
+    private int startingPlayerColBeforePeriod;
 
     /**
      * Constructs a DrawingSurface object and initializes relevant fields
@@ -72,6 +75,11 @@ public class DrawingSurface extends PApplet {
         this.friendCellFreq = 0.01;
         this.increaseFriendCellFreqFactor = 0.005;
         
+        
+        int[] playerLoc = grid.getPlayerLocation();
+        this.startingPlayerRowBeforePeriod = playerLoc[0];
+        this.startingPlayerColBeforePeriod = playerLoc[1];
+        
     }
 
     /**
@@ -81,7 +89,6 @@ public class DrawingSurface extends PApplet {
     	clockFont = createFont("DS-DIGI.TTF", 20);
     	regFont = createFont("Oswald-VariableFont_wght.ttf", 20);
         time = millis();
-        
         grid.generateFriendCells(friendCellFreq);
     }
 
@@ -93,9 +100,8 @@ public class DrawingSurface extends PApplet {
         background(211, 211, 211);
         fill(0);
         
-        System.out.println(friendCellFreq);
-        
         //CASES
+        
         
         //Introduction case
         if (intro) {
@@ -153,7 +159,13 @@ public class DrawingSurface extends PApplet {
         	//Draw shortest path and calculate bonus points
         	String targetClass = player.getSchedule(player.getCurrentDayNum())[player.getCurrentPeriod()-1];
             char targetClassBuilding = targetClass.charAt(0);
-        	int shortestPath = grid.getShortestPath(startingRow, startingCol, targetClassBuilding);
+        	int shortestPath = grid.displayShortestPath(this.startingPlayerRowBeforePeriod, 
+        							this.startingPlayerColBeforePeriod, targetClassBuilding).size();
+        	
+        	int[] playerLoc = grid.getPlayerLocation();
+        	this.startingPlayerRowBeforePeriod = playerLoc[0];
+        	this.startingPlayerColBeforePeriod = playerLoc[1];
+        	
         	int shortestPathPoints = 0;
         	if(Math.abs(shortestPath - playerMoves) <= 5) {
         		shortestPathPoints = 150;
@@ -226,12 +238,12 @@ public class DrawingSurface extends PApplet {
         		player.nextPeriod();
         	}
         	
+//        	grid.removeDisplayShortestPath();
         	playerMoves = 0;
         	clock.setElapsedSec(0);
         	cover = true;
         	finish = false;
         }
-
         
         
         //GAME DISPLAY
@@ -353,8 +365,6 @@ public class DrawingSurface extends PApplet {
         if (grid.playerIsBlocked()) {
         	grid.setRandomAdjFriendToPathCell();
         }
-        
-        
     }
 
     /**
